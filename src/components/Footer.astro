@@ -1,0 +1,25 @@
+---
+import { site, rubriques } from '../data/site';
+---
+<footer class="pied">
+  <div class="conteneur grille">
+    <div>
+      <h2>{site.domaine}</h2>
+      <p>{site.description}</p>
+    </div>
+    <div>
+      <h2>Rubriques</h2>
+      <ul>{rubriques.map((r) => <li><a href={`/rubriques/${r.id}`}>{r.titre}</a></li>)}</ul>
+    </div>
+    <div>
+      <h2>Le site</h2>
+      <ul>
+        <li><a href="/guides">Tous les guides</a></li>
+        <li><a href="/glossaire">Glossaire</a></li>
+        <li><a href="/a-propos">À propos et méthode</a></li>
+        <li><a href="/mentions-legales">Mentions légales</a></li>
+      </ul>
+      <p>Les informations publiées sont générales : elles ne remplacent pas l'avis de votre expert-comptable, de votre avocat ou de votre maître d'œuvre.</p>
+    </div>
+  </div>
+</footer>

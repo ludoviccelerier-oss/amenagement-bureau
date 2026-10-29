@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Assistants et moteurs IA : contenu librement consultable et citable
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+
+Sitemap: https://www.amenagement-bureau.com/sitemap-index.xml

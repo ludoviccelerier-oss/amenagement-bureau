@@ -1,0 +1,12 @@
+---
+import type { Miette } from '../lib/schema';
+interface Props { miettes: Miette[] }
+const { miettes } = Astro.props;
+---
+<nav class="ariane" aria-label="Fil d'Ariane">
+  <ol>
+    {miettes.map((m, i) => (
+      <li>{i < miettes.length - 1 ? <a href={m.href}>{m.label}</a> : <span aria-current="page">{m.label}</span>}</li>
+    ))}
+  </ol>
+</nav>

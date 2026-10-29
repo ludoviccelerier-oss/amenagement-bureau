@@ -1,0 +1,36 @@
+---
+import Base from '../../layouts/Base.astro';
+import FilAriane from '../../components/FilAriane.astro';
+import CarteGuide from '../../components/CarteGuide.astro';
+import { rubriques, site } from '../../data/site';
+import { guidesDe, urlGuide } from '../../lib/guides';
+import { abs, schemaFilAriane } from '../../lib/schema';
+
+export const getStaticPaths = () => rubriques.map((r) => ({ params: { id: r.id }, props: { r } }));
+
+const { r } = Astro.props as { r: (typeof rubriques)[number] };
+const guides = await guidesDe(r.id);
+const miettes = [{ label: 'Accueil', href: '/' }, { label: r.nom, href: `/rubriques/${r.id}` }];
+const liste = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: r.titre,
+  description: r.intro,
+  isPartOf: { '@id': `${site.url}/#site` },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: guides.map((g, i) => ({ '@type': 'ListItem', position: i + 1, url: abs(urlGuide(g)), name: g.data.title })),
+  },
+};
+---
+<Base title={`${r.titre} : guides pratiques | ${site.nom}`} description={r.intro} schema={[liste, schemaFilAriane(miettes)]}>
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <span class="surtitre">Rubrique</span>
+    <h1>{r.titre}</h1>
+    <p class="chapo">{r.intro}</p>
+    {guides.length > 0
+      ? <div class="grille-cartes section">{guides.map((g, i) => <CarteGuide guide={g} numero={i + 1} />)}</div>
+      : <p>Les premiers guides de cette rubrique sont en cours de rédaction.</p>}
+  </div>
+</Base>

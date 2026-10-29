@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import FilAriane from '../components/FilAriane.astro';
+import { glossaire } from '../data/glossaire';
+import { site } from '../data/site';
+import { abs, schemaFilAriane } from '../lib/schema';
+
+const lettres = [...new Set(glossaire.map((t) => t.terme[0].toUpperCase()))];
+const miettes = [{ label: 'Accueil', href: '/' }, { label: 'Glossaire', href: '/glossaire' }];
+const ensemble = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTermSet',
+  name: "Glossaire de l'aménagement de bureaux",
+  url: abs('/glossaire'),
+  hasDefinedTerm: glossaire.map((t) => ({ '@type': 'DefinedTerm', name: t.terme, description: t.def, url: abs(`/glossaire#${t.id}`) })),
+};
+---
+<Base
+  title={`Glossaire de l'aménagement de bureaux : ${glossaire.length} définitions | ${site.nom}`}
+  description="CAT A, CAT B, contractant général, AMO, décret tertiaire, réserves, IFRS 16… Les mots de l'aménagement de bureaux expliqués simplement."
+  schema={[ensemble, schemaFilAriane(miettes)]}
+>
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <div class="article-corps">
+      <h1>Glossaire de l'aménagement de bureaux</h1>
+      <p class="chapo">Les {glossaire.length} mots que vous entendrez en réunion de chantier, chez le bailleur ou chez votre expert-comptable, expliqués en deux phrases.</p>
+      <nav class="lettres" aria-label="Lettres">{lettres.map((l) => <a href={`#${glossaire.find((t) => t.terme[0].toUpperCase() === l)!.id}`}>{l}</a>)}</nav>
+      <dl class="glossaire">
+        {glossaire.map((t) => (
+          <>
+            <dt id={t.id}>{t.terme}</dt>
+            <dd>{t.def}{t.voir && <> <a href={`/guides/${t.voir}`}>En savoir plus</a></>}</dd>
+          </>
+        ))}
+      </dl>
+    </div>
+  </div>
+</Base>

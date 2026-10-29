@@ -1,0 +1,89 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import FilAriane from '../../components/FilAriane.astro';
+import CarteGuide from '../../components/CarteGuide.astro';
+import { rubrique, site } from '../../data/site';
+import { guidesTries, guidesDe, tempsLecture, urlGuide, type Guide } from '../../lib/guides';
+import { abs, dateFr, dateIso, editeur, schemaFaq, schemaFilAriane } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  return (await guidesTries()).map((guide) => ({ params: { slug: guide.id }, props: { guide } }));
+}
+
+const { guide } = Astro.props as { guide: Guide };
+const d = guide.data;
+const r = rubrique(d.rubrique);
+const { Content, headings } = await render(guide);
+const sommaire = headings.filter((h) => h.depth === 2);
+const voisins = (await guidesDe(d.rubrique)).filter((g) => g.id !== guide.id).slice(0, 3);
+
+const miettes = [
+  { label: 'Accueil', href: '/' },
+  { label: r.nom, href: `/rubriques/${r.id}` },
+  { label: d.title, href: urlGuide(guide) },
+];
+const article = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: d.title,
+  description: d.description,
+  datePublished: dateIso(d.date),
+  dateModified: dateIso(d.updated),
+  inLanguage: 'fr-FR',
+  mainEntityOfPage: abs(urlGuide(guide)),
+  articleSection: r.titre,
+  abstract: d.essentiel.join(' '),
+  author: { '@type': 'Organization', name: site.redaction, url: abs('/a-propos') },
+  publisher: editeur,
+  image: abs('/og.png'),
+};
+const schema = [article, schemaFilAriane(miettes), ...(d.faq.length ? [schemaFaq(d.faq)] : [])];
+---
+<Base title={d.seoTitle} description={d.description} type="article" schema={schema}>
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <div class="article">
+      <article class="article-corps">
+        <span class="surtitre">{r.titre}</span>
+        <h1>{d.title}</h1>
+        <p class="article-meta">
+          <span>Mis à jour le <time datetime={dateIso(d.updated)}>{dateFr(d.updated)}</time></span>
+          <span>{tempsLecture(guide)} min de lecture</span>
+        </p>
+        <section class="essentiel" aria-labelledby="essentiel">
+          <h2 id="essentiel">L'essentiel en 30 secondes</h2>
+          <ul>{d.essentiel.map((e) => <li set:html={e} />)}</ul>
+        </section>
+        <div class="prose"><Content /></div>
+        {d.faq.length > 0 && (
+          <section class="faq">
+            <h2 id="questions-frequentes">Questions fréquentes</h2>
+            {d.faq.map((f) => <details><summary>{f.q}</summary><p>{f.r}</p></details>)}
+          </section>
+        )}
+        {d.sources.length > 0 && (
+          <section class="sources">
+            <h2>Sources et textes de référence</h2>
+            <ul>{d.sources.map((s) => <li><a href={s.url} rel="noopener">{s.label}</a></li>)}</ul>
+          </section>
+        )}
+      </article>
+      {sommaire.length > 2 && (
+        <aside class="sommaire" aria-label="Sommaire">
+          <h2>Dans ce guide</h2>
+          <ol>
+            {sommaire.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+            {d.faq.length > 0 && <li><a href="#questions-frequentes">Questions fréquentes</a></li>}
+          </ol>
+        </aside>
+      )}
+    </div>
+    {voisins.length > 0 && (
+      <section class="section">
+        <h2>À lire aussi dans « {r.nom} »</h2>
+        <div class="grille-cartes">{voisins.map((g) => <CarteGuide guide={g} />)}</div>
+      </section>
+    )}
+  </div>
+</Base>

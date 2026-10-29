@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import FilAriane from '../components/FilAriane.astro';
+import { site } from '../data/site';
+import { schemaFilAriane } from '../lib/schema';
+const miettes = [{ label: 'Accueil', href: '/' }, { label: 'À propos', href: '/a-propos' }];
+---
+<Base title={`À propos et méthode éditoriale | ${site.nom}`} description="Pourquoi ce site, à qui il s'adresse et comment nos guides sont rédigés et mis à jour." schema={[schemaFilAriane(miettes)]}>
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <div class="article-corps prose">
+      <h1>À propos et méthode</h1>
+      <p class="chapo">{site.nom} est un guide pratique pour les entreprises qui aménagent, réaménagent ou déménagent leurs bureaux.</p>
+      <h2>Pour qui ?</h2>
+      <p>Pour les dirigeants, directeurs immobiliers, directeurs administratifs et financiers et responsables des services généraux qui pilotent un projet de bureaux sans en faire leur métier. Nous partons du principe que vous n'êtes ni architecte, ni fiscaliste, ni conducteur de travaux, et que vous avez besoin de comprendre vite pour décider juste.</p>
+      <h2>Notre méthode</h2>
+      <ul>
+        <li><strong>La réponse d'abord.</strong> Chaque guide commence par « L'essentiel en 30 secondes ».</li>
+        <li><strong>Des ordres de grandeur, pas des promesses.</strong> Les prix indiqués sont des fourchettes indicatives, hors taxes, à confirmer par des devis.</li>
+        <li><strong>Des sources officielles.</strong> Pour la réglementation, la fiscalité et le droit, nous renvoyons aux textes (Légifrance, BOFiP, ADEME).</li>
+        <li><strong>Des mises à jour datées.</strong> La date de dernière mise à jour figure en tête de chaque guide.</li>
+      </ul>
+      <h2>Ce que nos guides ne sont pas</h2>
+      <p>Ils donnent une information générale. Ils ne remplacent pas un conseil adapté à votre situation par un expert-comptable, un avocat, un maître d'œuvre ou un assureur.</p>
+    </div>
+  </div>
+</Base>

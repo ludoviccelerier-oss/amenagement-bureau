@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import FilAriane from '../../components/FilAriane.astro';
+import CarteGuide from '../../components/CarteGuide.astro';
+import { rubriques } from '../../data/site';
+import { guidesDe } from '../../lib/guides';
+import { schemaFilAriane } from '../../lib/schema';
+
+const parRubrique = await Promise.all(rubriques.map(async (r) => ({ r, guides: await guidesDe(r.id) })));
+const miettes = [{ label: 'Accueil', href: '/' }, { label: 'Tous les guides', href: '/guides' }];
+---
+<Base
+  title="Tous les guides sur l'aménagement de bureaux | Aménagement Bureau"
+  description="Tous nos guides pratiques sur l'aménagement de bureaux : étapes, prestataires, budget, financement, fiscalité et réglementation."
+  schema={[schemaFilAriane(miettes)]}
+>
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <h1>Tous les guides</h1>
+    {parRubrique.filter((x) => x.guides.length).map(({ r, guides }) => (
+      <section class="section">
+        <h2><a href={`/rubriques/${r.id}`}>{r.titre}</a></h2>
+        <div class="grille-cartes">{guides.map((g) => <CarteGuide guide={g} />)}</div>
+      </section>
+    ))}
+  </div>
+</Base>

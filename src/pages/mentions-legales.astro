@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+// À COMPLÉTER avant mise en ligne : éditeur, directeur de la publication (obligatoires, loi n° 2004-575 du 21 juin 2004, art. 6)
+---
+<Base title={`Mentions légales | ${site.nom}`} description={`Mentions légales du site ${site.domaine}.`} noindex>
+  <div class="conteneur article-corps prose">
+    <h1>Mentions légales</h1>
+    <h2>Éditeur</h2>
+    <p>[Raison sociale, forme, capital, adresse du siège, RCS, e-mail de contact — à compléter]</p>
+    <h2>Directeur de la publication</h2>
+    <p>[Nom — à compléter]</p>
+    <h2>Hébergement</h2>
+    <p>Netlify, Inc., 512 2nd Street, Suite 200, San Francisco, CA 94107, États-Unis.</p>
+    <h2>Données personnelles et cookies</h2>
+    <p>Le site ne comporte aucun formulaire et ne dépose aucun cookie de mesure d'audience ou publicitaire.</p>
+    <h2>Contenus</h2>
+    <p>Les guides publiés sur {site.domaine} sont fournis à titre d'information générale et ne constituent pas un conseil juridique, fiscal ou comptable.</p>
+  </div>
+</Base>
