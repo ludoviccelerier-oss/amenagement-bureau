@@ -1,0 +1,241 @@
+---
+import Base from '../../../layouts/Base.astro';
+import FilAriane from '../../../components/FilAriane.astro';
+import { rubrique, site } from '../../../data/site';
+import { abs, dateFr, dateIso, editeur, schemaFilAriane } from '../../../lib/schema';
+import { contractants, nb, pct, SEGMENTS, urlClassement, urlFiche, MAJ, type Contractant, type Exercice } from '../../../lib/contractants';
+
+export const getStaticPaths = () => contractants.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+
+const { c } = Astro.props as { c: Contractant };
+const r = rubrique('prestataires');
+const t = c.texte;
+const id = c.identite;
+const seg = SEGMENTS[c.segment as keyof typeof SEGMENTS];
+const precedent = contractants.find((x) => x.rang === c.rang - 1);
+const suivant = contractants.find((x) => x.rang === c.rang + 1);
+const memeFamille = contractants.filter((x) => x.segment === c.segment && x.slug !== c.slug).slice(0, 6);
+const titre = `${c.nom} : fiche contractant général`;
+const description = `${c.nom}, n° ${c.rang} du classement ${site.nom} des contractants généraux en France : ${c.positionnement.toLowerCase()}, chiffre d'affaires ${c.indicateurs.ca ? nb(c.indicateurs.ca) + ' M€' : 'non publié'}, comptes sur 5 ans, forces et faiblesses.`;
+const miettes = [
+  { label: 'Accueil', href: '/' },
+  { label: r.nom, href: `/rubriques/${r.id}` },
+  { label: 'Top 40 des contractants généraux', href: urlClassement },
+  { label: c.nom, href: urlFiche(c) },
+];
+const dateCrea = id.creation ? new Date(id.creation).toLocaleDateString('fr-FR') : 'n.d.';
+const adresse = id.adresse ? id.adresse.toLowerCase().replace(/(^|\s)\S/g, (m) => m.toUpperCase()) : 'n.d.';
+const lignes: [string, (e: Exercice) => string][] = [
+  ["Chiffre d'affaires (M€)", (e) => nb(e.ca)],
+  ['Croissance du CA', (e) => pct(e.croissance)],
+  ['Marge brute (M€)', (e) => nb(e.margeBrute)],
+  ['EBE (M€)', (e) => nb(e.ebe)],
+  ["Marge d'EBE", (e) => pct(e.margeEbe)],
+  ["Résultat d'exploitation (M€)", (e) => nb(e.ebit)],
+  ['Résultat net (M€)', (e) => nb(e.rn)],
+  ['Marge nette', (e) => pct(e.margeNette)],
+  ["Capacité d'autofinancement / CA", (e) => pct(e.caf)],
+  ["BFR d'exploitation (jours de CA)", (e) => nb(e.bfr, 0)],
+  ['Délai clients (jours)', (e) => nb(e.clients, 0)],
+  ['Délai fournisseurs (jours)', (e) => nb(e.fournisseurs, 0)],
+  ['Autonomie financière', (e) => pct(e.autonomie)],
+  ['Endettement financier / fonds propres', (e) => pct(e.endettement)],
+];
+const etoiles = (v: number | null) => (v ? '●'.repeat(v) + '○'.repeat(5 - v) : '');
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Organization', name: c.nom, legalName: id.raison, taxID: c.siren,
+    ...(c.site ? { url: c.site.url } : {}), foundingDate: id.creation ?? undefined,
+    address: id.adresse ? { '@type': 'PostalAddress', streetAddress: adresse, addressCountry: 'FR' } : undefined,
+    sameAs: c.sources.slice(0, 2).map((s) => s.url),
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'Article', headline: titre, description, datePublished: dateIso(MAJ), dateModified: dateIso(MAJ),
+    inLanguage: 'fr-FR', mainEntityOfPage: abs(urlFiche(c)), articleSection: r.titre,
+    author: { '@type': 'Organization', name: site.redaction, url: abs('/a-propos') }, publisher: editeur,
+  },
+  schemaFilAriane(miettes),
+];
+---
+<Base title={`${c.nom} : chiffre d'affaires, comptes et analyse | ${site.nom}`} description={description} type="article" schema={schema} image="grand-plateau">
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <div class="article">
+      <article class="article-corps">
+        <span class="surtitre">Top 40 des contractants généraux · n° {c.rang} sur {contractants.length}</span>
+        <h1>{c.nom}</h1>
+        <p class="chapo">{c.positionnement}. Famille : {seg.nom.toLowerCase()}.</p>
+        <p class="article-meta">
+          <span>Mis à jour le <time datetime={dateIso(MAJ)}>{dateFr(MAJ)}</time></span>
+          <span>SIREN {c.siren}</span>
+          <span>Comptes {c.comptes.type}</span>
+        </p>
+        <p class="liens-societe">
+          {c.site && <a class="bouton" href={c.site.url} rel="noopener">Site officiel : {c.site.label} ↗</a>}
+          <a href={`https://annuaire-entreprises.data.gouv.fr/entreprise/${c.siren}`} rel="noopener">Fiche officielle (Annuaire des entreprises) ↗</a>
+          <a href={`https://www.pappers.fr/entreprise/${c.siren}`} rel="noopener">Comptes et documents (Pappers) ↗</a>
+        </p>
+
+        <section class="essentiel" aria-labelledby="essentiel">
+          <h2 id="essentiel">L'essentiel</h2>
+          <ul>
+            <li>Chiffre d'affaires : <strong>{c.indicateurs.ca ? `${nb(c.indicateurs.ca)} M€` : 'non publié'}</strong>{c.indicateurs.exercice && <> (exercice {c.indicateurs.exercice}{c.indicateurs.croissance !== null && <>, {pct(c.indicateurs.croissance)} sur un an</>})</>}.</li>
+            <li>Marge d'EBE moyenne sur 3 ans : <strong>{pct(c.indicateurs.margeEbe3)}</strong> · autonomie financière : <strong>{pct(c.indicateurs.autonomie)}</strong>.</li>
+            <li>Notes de la rédaction : attractivité <strong>{c.notes.attractivite}/5</strong>, solidité financière <strong>{c.notes.solidite ? `${c.notes.solidite}/5` : 'non évaluable'}</strong>, potentiel <strong>{c.notes.potentiel}/5</strong>, soit une note globale de <strong>{nb(c.notes.globale)}/5</strong>.</li>
+            <li>Rôle dans les projets de bureaux : {c.grille.role}.</li>
+          </ul>
+        </section>
+
+        <div class="prose">
+          <h2 id="identite">Identité et profil</h2>
+          <table>
+            <tbody>
+              <tr><th scope="row">Raison sociale</th><td>{id.raison}</td></tr>
+              <tr><th scope="row">Immatriculation de l'entité</th><td>{dateCrea}</td></tr>
+              <tr><th scope="row">Siège</th><td>{adresse}</td></tr>
+              <tr><th scope="row">Établissements ouverts</th><td>{id.etablissements ?? 'n.d.'}</td></tr>
+              <tr><th scope="row">Catégorie (INSEE)</th><td>{id.categorie ?? 'n.d.'}</td></tr>
+              <tr><th scope="row">Code d'activité (NAF)</th><td>{id.naf ?? 'n.d.'}</td></tr>
+              <tr><th scope="row">Effectif salarié</th><td>{id.effectif} salariés{id.effectifAnnee && ` (${id.effectifAnnee})`}</td></tr>
+              <tr><th scope="row">Dirigeants</th><td>{id.dirigeants.length ? id.dirigeants.join(' ; ') : 'n.d.'}</td></tr>
+              {id.cac.length > 0 && <tr><th scope="row">Commissaires aux comptes</th><td>{id.cac.join(', ')}</td></tr>}
+            </tbody>
+          </table>
+          <p><strong>Actionnariat et groupe.</strong> {t.groupe}</p>
+          <p><strong>Historique.</strong> {t.histo}</p>
+
+          <h2 id="activites">Activités et offre</h2>
+          <ul>
+            <li><strong>Types de travaux</strong> : {t.activ}</li>
+            <li><strong>Ce qui est fait en interne et ce qui est sous-traité</strong> : {t.integ}</li>
+            <li><strong>Offre clé en main et engagements</strong> : {t.offre}</li>
+          </ul>
+
+          <h2 id="marches">Clients et marchés</h2>
+          <ul>
+            <li><strong>Clients</strong> : {t.clients}</li>
+            <li><strong>Types de bâtiments</strong> : {t.actifs}</li>
+            <li><strong>Taille des projets</strong> : {t.taille}</li>
+            <li><strong>Zone d'intervention</strong> : {t.geo}</li>
+            <li><strong>Positionnement prix</strong> : {t.prix}</li>
+          </ul>
+
+          <h2 id="modele">Modèle économique</h2>
+          <p>{t.modele}</p>
+
+          <h2 id="comptes">Comptes sur 5 ans</h2>
+          {c.comptes.principal.length ? (
+            <>
+              <p class="discret">Comptes {c.comptes.type} déposés, en millions d'euros sauf mention contraire.</p>
+              <table class="comptes">
+                <thead><tr><th scope="col">Indicateur</th>{c.comptes.principal.map((e) => <th scope="col" class="num">{e.exercice}</th>)}</tr></thead>
+                <tbody>{lignes.map(([l, f]) => <tr><th scope="row">{l}</th>{c.comptes.principal.map((e) => <td class="num">{f(e)}</td>)}</tr>)}</tbody>
+              </table>
+              {c.comptes.societe.length > 0 && (
+                <>
+                  <p class="discret">Pour comparaison, comptes sociaux de la société tête de groupe :</p>
+                  <table class="comptes">
+                    <thead><tr><th scope="col">Indicateur</th>{c.comptes.societe.map((e) => <th scope="col" class="num">{e.exercice}</th>)}</tr></thead>
+                    <tbody>{lignes.slice(0, 7).map(([l, f]) => <tr><th scope="row">{l}</th>{c.comptes.societe.map((e) => <td class="num">{f(e)}</td>)}</tr>)}</tbody>
+                  </table>
+                </>
+              )}
+              <ul>
+                <li>Croissance annuelle moyenne du CA sur la période : <strong>{pct(c.indicateurs.tcam)}</strong></li>
+                {c.indicateurs.caParSalarie && <li>Chiffre d'affaires par salarié (ordre de grandeur, sur la base de la tranche d'effectif) : <strong>{nb(c.indicateurs.caParSalarie, 0)} k€</strong></li>}
+              </ul>
+            </>
+          ) : (
+            <p>La société n'a pas publié de comptes depuis 2020 (comptes confidentiels ou non déposés) : ses performances financières ne peuvent pas être évaluées.</p>
+          )}
+          <div class="encadre definition">
+            <p><strong>Lire ces chiffres</strong> : le chiffre d'affaires d'un contractant général inclut les travaux qu'il sous-traite, enregistrés en charges externes. Une marge brute proche du chiffre d'affaires ne signale donc pas une forte valeur ajoutée : l'EBE est l'indicateur de rentabilité le plus fiable.</p>
+          </div>
+
+          <h2 id="references">Références et capacité d'exécution</h2>
+          <p>
+            {t.refs && <>{t.refs} </>}La société compte {id.etablissements ?? "un nombre non communiqué d'établissements"}{typeof id.etablissements === 'number' && (id.etablissements > 1 ? ' établissements ouverts' : ' établissement ouvert')} selon le registre.
+            Aucune procédure collective n'apparaît au registre à la date de mise à jour (voir le <a href="https://www.bodacc.fr" rel="noopener">BODACC</a>).
+          </p>
+
+          <h2 id="strategie">Stratégie</h2>
+          <p>{t.strat}</p>
+
+          <h2 id="risques">Risques et points de vigilance</h2>
+          <p>{t.risques}</p>
+          <table class="swot">
+            <tbody>
+              <tr><th scope="col">Forces</th><th scope="col">Faiblesses</th></tr>
+              <tr><td>{t.F}</td><td>{t.Fa}</td></tr>
+              <tr><th scope="col">Opportunités</th><th scope="col">Menaces</th></tr>
+              <tr><td>{t.O}</td><td>{t.M}</td></tr>
+            </tbody>
+          </table>
+
+          <h2 id="grille">Grille de lecture tertiaire</h2>
+          <table>
+            <tbody>
+              <tr><th scope="row">Expertise tertiaire (plateaux, immeubles vacants)</th><td class="num">{etoiles(c.grille.tert)} {c.grille.tert}/5</td></tr>
+              <tr><th scope="row">Accès aux donneurs d'ordre (foncières, utilisateurs)</th><td class="num">{etoiles(c.grille.acces)} {c.grille.acces}/5</td></tr>
+              <tr><th scope="row">Capacité de réalisation (volumes, multi-sites)</th><td class="num">{etoiles(c.grille.real)} {c.grille.real}/5</td></tr>
+              <tr><th scope="row">Modèle de marge (honoraires, services récurrents)</th><td class="num">{etoiles(c.grille.marge)} {c.grille.marge}/5</td></tr>
+              <tr><th scope="row">Capacité financière (portage des travaux)</th><td class="num">{etoiles(c.grille.fin)} {c.grille.fin}/5</td></tr>
+              <tr><th scope="row">Score tertiaire</th><td class="num"><strong>{nb(c.notes.tertiaire)}/5</strong></td></tr>
+            </tbody>
+          </table>
+          <p class="discret">
+            La solidité financière est calculée à partir des comptes ; les autres notes sont des appréciations de la rédaction.
+            Méthode détaillée dans <a href={`${urlClassement}#methode`}>le classement</a>.
+          </p>
+        </div>
+
+        <section class="sources">
+          <h2>Sources</h2>
+          <ul>
+            {c.site && <li><a href={c.site.url} rel="noopener">Site officiel : {c.site.label}</a></li>}
+            {c.sources.map((s) => <li><a href={s.url} rel="noopener">{s.label}</a></li>)}
+            <li><a href="https://data.economie.gouv.fr/explore/dataset/ratios_inpi_bce/" rel="noopener">Ministère de l'Économie : ratios financiers issus des comptes déposés (INPI)</a></li>
+          </ul>
+          <p>Notre méthode éditoriale est décrite sur la page <a href="/a-propos">À propos</a>.</p>
+        </section>
+      </article>
+      <aside class="sommaire" aria-label="Sommaire">
+        <h2>Dans cette fiche</h2>
+        <ol>
+          <li><a href="#identite">Identité</a></li>
+          <li><a href="#activites">Activités</a></li>
+          <li><a href="#marches">Clients et marchés</a></li>
+          <li><a href="#modele">Modèle économique</a></li>
+          <li><a href="#comptes">Comptes sur 5 ans</a></li>
+          <li><a href="#references">Références</a></li>
+          <li><a href="#strategie">Stratégie</a></li>
+          <li><a href="#risques">Risques et SWOT</a></li>
+          <li><a href="#grille">Grille tertiaire</a></li>
+        </ol>
+        <p><a href={urlClassement}>← Retour au classement</a></p>
+      </aside>
+    </div>
+
+    <nav class="fiches-voisines section" aria-label="Fiches voisines dans le classement">
+      {precedent ? <a href={urlFiche(precedent)}>← n° {precedent.rang} {precedent.nom}</a> : <span />}
+      <a href={urlClassement}>Le classement complet</a>
+      {suivant ? <a href={urlFiche(suivant)}>n° {suivant.rang} {suivant.nom} →</a> : <span />}
+    </nav>
+
+    {memeFamille.length > 0 && (
+      <section class="section">
+        <h2>Dans la même famille : {seg.nom.toLowerCase()}</h2>
+        <div class="grille-cartes">
+          {memeFamille.map((x) => (
+            <a class="carte" href={urlFiche(x)}>
+              <span class="num">n° {x.rang}</span>
+              <h3>{x.nom}</h3>
+              <p>{x.positionnement}</p>
+              <span class="meta">CA {x.indicateurs.ca ? `${nb(x.indicateurs.ca)} M€` : 'non publié'} · note {nb(x.notes.globale)}/5</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>

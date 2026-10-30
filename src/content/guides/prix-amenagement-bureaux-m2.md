@@ -3,6 +3,8 @@ title: "Combien coûte l'aménagement de bureaux au m² ?"
 seoTitle: "Prix de l'aménagement de bureaux au m² : fourchettes et postes de coût"
 description: "Prix au m² de l'aménagement de bureaux selon le niveau de prestation, poste par poste : travaux, mobilier, honoraires, aléas. Ordres de grandeur pour bâtir votre budget."
 rubrique: budget-financement
+photo: bureau-blanc
+photoAlt: "Poste de travail aménagé avec bureau blanc, rangements et siège ergonomique"
 ordre: 1
 date: 2026-10-29
 updated: 2026-10-29

@@ -3,6 +3,8 @@ title: "Comment financer l'aménagement de ses bureaux ?"
 seoTitle: "Financer l'aménagement de bureaux : fonds propres, crédit, leasing, participation du bailleur"
 description: "Fonds propres, emprunt, leasing et location financière, participation du bailleur, franchise de loyer : les solutions pour financer l'aménagement de vos bureaux, leurs avantages et leurs limites."
 rubrique: budget-financement
+photo: espace-detente
+photoAlt: "Espace détente de bureaux avec canapés, plantes et luminaires"
 ordre: 2
 date: 2026-10-29
 updated: 2026-10-29
@@ -70,7 +72,7 @@ Lors de la négociation d'un nouveau bail ou d'un renouvellement, le bailleur pe
 
 <div class="encadre astuce">
 
-**Astuce** : l'ampleur de ces mesures dépend du marché local. Là où les bureaux vacants sont nombreux, la marge de négociation est plus grande. Un conseil en immobilier d'entreprise peut vous indiquer les pratiques du moment.
+**Astuce** : l'ampleur de ces mesures dépend du marché local. Là où les bureaux vacants sont nombreux, la marge de négociation est plus grande. Un conseil en immobilier d'entreprise peut vous indiquer les pratiques du moment. Pour comprendre le point de vue du propriétaire, voir [bailleur et locataire : qui paie quoi](/guides/bailleur-locataire-qui-paie-quoi-travaux-bureaux).
 
 </div>
 

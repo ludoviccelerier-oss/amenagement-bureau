@@ -3,6 +3,8 @@ title: "CAT A, CAT B : ce que signifient ces termes (et qui paie quoi)"
 seoTitle: "CAT A et CAT B en bureaux : définition simple et répartition des coûts"
 description: "CAT A, CAT B, « shell & core » : la définition simple des niveaux de livraison d'un plateau de bureaux, et ce qui revient au bailleur ou au locataire."
 rubrique: comprendre
+photo: plateau-vide
+photoAlt: "Plateau de bureaux vide livré avec moquette, faux plafond et éclairage, avant aménagement"
 ordre: 2
 date: 2026-10-29
 updated: 2026-10-29

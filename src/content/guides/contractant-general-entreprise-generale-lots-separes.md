@@ -3,6 +3,8 @@ title: "Contractant général, entreprise générale, lots séparés : le compar
 seoTitle: "Contractant général vs entreprise générale vs lots séparés : comparatif pour vos bureaux"
 description: "Qui choisir pour aménager vos bureaux : un contractant général, une entreprise générale avec un architecte, ou des lots séparés ? Le comparatif sur le prix, les délais, les risques et le pilotage."
 rubrique: prestataires
+photo: postes-bois
+photoAlt: "Plateau de bureaux avec postes de travail en open space et parquet bois"
 ordre: 1
 date: 2026-10-29
 updated: 2026-10-29
@@ -78,3 +80,5 @@ Posez-vous trois questions :
 3. **Le budget est-il très contraint ?** Les lots séparés peuvent faire baisser la facture, à condition de piloter de près.
 
 Pour comparer ensuite plusieurs candidats, utilisez notre [grille en 12 critères pour choisir un contractant général](/guides/choisir-contractant-general-criteres).
+
+Pour identifier les principaux acteurs du marché, voir [le Top 40 des contractants généraux en France](/prestataires/top-40-contractants-generaux).

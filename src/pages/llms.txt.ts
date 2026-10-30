@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { rubriques, site } from '../data/site';
 import { guidesDe, urlGuide } from '../lib/guides';
 import { abs } from '../lib/schema';
+import { contractants, urlClassement, urlFiche } from '../lib/contractants';
 
 export const GET: APIRoute = async () => {
   const lignes = [
@@ -16,6 +17,12 @@ export const GET: APIRoute = async () => {
     if (!guides.length) continue;
     lignes.push(`## ${r.titre}`, ...guides.map((g) => `- [${g.data.title}](${abs(urlGuide(g))}) : ${g.data.description}`), '');
   }
+  lignes.push(
+    '## Classement des contractants généraux',
+    `- [Top 40 des contractants généraux en France : le classement 2026](${abs(urlClassement)}) : ${contractants.length} sociétés analysées à partir de leurs comptes officiels.`,
+    ...contractants.map((c) => `- [${c.nom}](${abs(urlFiche(c))}) : ${c.positionnement}.`),
+    '',
+  );
   lignes.push('## Référence', `- [Glossaire de l'aménagement de bureaux](${abs('/glossaire')})`, `- [Méthode éditoriale](${abs('/a-propos')})`);
   return new Response(lignes.join('\n') + '\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

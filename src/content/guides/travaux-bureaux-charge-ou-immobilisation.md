@@ -3,6 +3,8 @@ title: "Travaux de bureaux : charge ou immobilisation ? Amortissement, TVA et IF
 seoTitle: "Travaux d'aménagement de bureaux : charge ou immobilisation, amortissement, TVA, IFRS 16"
 description: "Comment traiter en comptabilité et en fiscalité les travaux d'aménagement de vos bureaux : charge ou immobilisation, durée d'amortissement, travaux du locataire, TVA, leasing et IFRS 16."
 rubrique: fiscalite-comptabilite
+photo: salon-fauteuils
+photoAlt: "Espace d'attente de bureaux avec fauteuils colorés et plantes"
 ordre: 1
 date: 2026-10-29
 updated: 2026-10-29

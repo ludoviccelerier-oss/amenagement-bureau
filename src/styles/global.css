@@ -137,3 +137,56 @@ strong { color: var(--encre); font-weight: 650; }
 .lettres { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0 2rem; }
 .lettres a { font-weight: 650; text-decoration: none; border: 1px solid var(--filet); border-radius: 6px; padding: 0.2rem 0.55rem; }
 @media (prefers-color-scheme: dark) { .logo rect { fill: #2c3a4f; } }
+
+/* Photos */
+.photo { margin: 0 0 2rem; }
+.photo img { display: block; width: 100%; height: auto; border-radius: 10px; background: var(--filet); }
+.photo figcaption { font-size: 0.72rem; color: var(--discret); margin-top: 0.4rem; }
+.photo figcaption a { color: var(--discret); }
+.bandeau img { aspect-ratio: 16 / 9; object-fit: cover; }
+.bandeau.large img { aspect-ratio: 21 / 8; }
+@media (max-width: 47.99rem) { .bandeau.large img { aspect-ratio: 16 / 9; } }
+@media (min-width: 64rem) {
+  .une { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 34rem); gap: 3rem; align-items: center; }
+}
+.une-photo img { aspect-ratio: 4 / 3; object-fit: cover; }
+.acces { display: flex; flex-wrap: wrap; gap: 0.6rem 1.6rem; font-weight: 600; }
+.carte.avec-image { padding-top: 0; overflow: hidden; }
+.carte-image { display: block; width: calc(100% + 2.8rem); max-width: none; margin: 0 -1.4rem 1.1rem; aspect-ratio: 16 / 9; object-fit: cover; height: auto; }
+.carte.avec-image .num { margin-top: -2.3rem; position: relative; }
+
+/* Classement des contractants généraux */
+.texte-max { max-width: var(--texte-max); }
+.discret { font-size: 0.85rem; color: var(--discret); }
+.prose th.num, .prose td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.prose.large table { font-size: 0.86rem; }
+.classement th[scope='row'] { white-space: normal; border-bottom-width: 1px; font-weight: 600; min-width: 12rem; }
+.classement thead th { white-space: normal; vertical-align: bottom; }
+.classement small { color: var(--discret); font-weight: 400; }
+.classement tbody tr:hover { background: var(--accent-fond); }
+.prose table.comptes th[scope='row'] { white-space: normal; border-bottom-width: 1px; font-weight: 500; }
+.prose table th[scope='row'] { white-space: normal; border-bottom: 1px solid var(--filet); font-weight: 600; }
+.swot { table-layout: fixed; }
+.swot th { background: var(--accent-fond); }
+.liens-societe { display: flex; flex-wrap: wrap; gap: 0.6rem 1.2rem; align-items: center; font-size: 0.92rem; }
+.bouton { background: var(--accent); color: #1e2a3a; font-weight: 650; text-decoration: none; border-radius: 6px; padding: 0.45rem 0.8rem; }
+.bouton:hover { filter: brightness(1.05); }
+.fiches-voisines { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--filet); padding-top: 1.2rem; font-size: 0.92rem; }
+.liste-fiches { columns: 3 16rem; font-size: 0.92rem; }
+.liste-fiches li { break-inside: avoid; }
+.liste-fiches span { color: var(--discret); font-size: 0.8rem; }
+.carto { margin: 1.2rem 0 2rem; }
+.carto svg { width: 100%; height: auto; background: var(--carte); border: 1px solid var(--filet); border-radius: 10px; }
+.carto .grille-ligne { stroke: var(--filet); }
+.carto .axe { font: 11px var(--sans); fill: var(--discret); }
+.carto .titre-axe { font-weight: 600; }
+.carto .point { stroke: var(--carte); stroke-width: 1.5; }
+.carto a:hover .point { stroke: var(--encre); }
+.carto .etiquette { font: 600 11px var(--sans); fill: var(--encre); paint-order: stroke; stroke: var(--carte); stroke-width: 3px; }
+.carto figcaption { display: flex; flex-wrap: wrap; gap: 0.4rem 1.2rem; font-size: 0.8rem; color: var(--discret); margin-top: 0.6rem; }
+.legende { display: inline-flex; align-items: center; gap: 0.35rem; }
+.pastille { width: 0.7rem; height: 0.7rem; border-radius: 50%; display: inline-block; }
+.carte.vedette { border-color: var(--accent); background: var(--accent-fond); max-width: 46rem; }
+.carte.vedette h3 { font-size: 1.35rem; }
+.classement thead th.num { white-space: normal; min-width: 4.5rem; }
+.classement td:nth-child(3), .classement td:nth-child(4) { white-space: nowrap; font-size: 0.8rem; }

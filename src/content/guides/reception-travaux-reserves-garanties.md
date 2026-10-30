@@ -3,6 +3,8 @@ title: "Réception des travaux : réserves, garanties et retenue de garantie"
 seoTitle: "Réception des travaux de bureaux : réserves, garanties légales, retenue de 5 %"
 description: "Comment réceptionner les travaux d'aménagement de vos bureaux : procès-verbal, réserves, garantie de parfait achèvement, biennale, décennale et retenue de garantie."
 rubrique: etapes
+photo: cloisons-vitrees
+photoAlt: "Bureaux neufs avec cloisons vitrées et mobilier installé, prêts à être réceptionnés"
 ordre: 2
 date: 2026-10-29
 updated: 2026-10-29

@@ -15,6 +15,8 @@ const guides = defineCollection({
     date: z.coerce.date(),
     updated: z.coerce.date(),
     ordre: z.number().default(50), // rang dans la rubrique
+    photo: z.string(), // nom d'un fichier de src/assets/photos (sans .jpg)
+    photoAlt: z.string(),
     // « L'essentiel » : réponse directe en tête d'article, reprise par les moteurs et assistants IA
     essentiel: z.array(z.string()).min(3),
     faq: z.array(z.object({ q: z.string(), r: z.string() })).default([]),

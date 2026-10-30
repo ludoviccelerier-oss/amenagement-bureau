@@ -1,0 +1,352 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import FilAriane from '../../components/FilAriane.astro';
+import Photo from '../../components/Photo.astro';
+import { photo } from '../../lib/photos';
+import { rubrique, site } from '../../data/site';
+import { abs, dateFr, dateIso, editeur, schemaFaq, schemaFilAriane } from '../../lib/schema';
+import { contractants, mediane, nb, pct, SEGMENTS, sourcesEtude, urlClassement, urlFiche, MAJ } from '../../lib/contractants';
+
+const r = rubrique('prestataires');
+const n = contractants.length;
+const titre = 'Top 40 des contractants généraux en France : le classement 2026';
+const description = `Classement 2026 des contractants généraux, entreprises générales et spécialistes de l'aménagement de bureaux en France : ${n} acteurs analysés à partir de leurs comptes publiés (CA, EBE, BFR, solidité), avec une fiche détaillée par société.`;
+const miettes = [
+  { label: 'Accueil', href: '/' },
+  { label: r.nom, href: `/rubriques/${r.id}` },
+  { label: 'Top 40 des contractants généraux', href: urlClassement },
+];
+
+const parSeg = (k: string) => contractants.filter((c) => c.segment === k);
+const fiche = (slug: string) => contractants.find((c) => c.slug === slug)!;
+const lien = (slug: string) => ({ href: urlFiche(fiche(slug)), nom: fiche(slug).nom });
+const margeMed = mediane(contractants.map((c) => c.indicateurs.margeEbe3));
+const negatifs = contractants.filter((c) => (c.indicateurs.margeEbe3 ?? 0) < 0);
+const topRenta = contractants.filter((c) => c.indicateurs.margeEbe3 !== null).sort((a, b) => b.indicateurs.margeEbe3! - a.indicateurs.margeEbe3!).slice(0, 10);
+const topTertiaire = [...contractants].sort((a, b) => b.notes.tertiaire - a.notes.tertiaire || b.grille.tert - a.grille.tert).slice(0, 15);
+
+// Cartographie : x = expertise tertiaire (1 à 5), y = chiffre d'affaires (échelle logarithmique)
+const W = 760, H = 440, M = { g: 56, d: 120, h: 16, b: 48 };
+const ly = (ca: number) => Math.log10(Math.max(ca, 1));
+const xs = (t: number) => M.g + ((t - 0.5) / 5) * (W - M.g - M.d);
+const ys = (ca: number) => H - M.b - (ly(ca) / Math.log10(3000)) * (H - M.h - M.b);
+const etiquetes = new Set(['bouygues-batiment-ile-de-france', 'gse', 'leon-grosse', 'tetris', 'korus', 'kardham', 'isospace', 'eiffage-construction-tertiaire', 'pradeau-morin', 'ga-smart-building', 'briand', 'cicad', 'demathieu-bard-construction']);
+const aGauche = new Set(['eiffage-construction-tertiaire', 'ga-smart-building', 'cicad', 'pradeau-morin']);
+const decalage: Record<string, number> = {};
+const points = contractants.filter((c) => c.indicateurs.ca).map((c) => {
+  const cle = `${c.grille.tert}`;
+  decalage[cle] = (decalage[cle] ?? 0) + 1;
+  return { c, x: xs(c.grille.tert) + ((decalage[cle] % 5) - 2) * 7, y: ys(c.indicateurs.ca!) };
+});
+const couleurs: Record<string, string> = { A: 'var(--lien)', B: 'var(--alerte)', C: 'var(--accent)', D: 'var(--discret)' };
+
+const essentiel = [
+  `<strong>${n} acteurs</strong> analysés à partir de leurs comptes officiels : filiales des majors, entreprises générales indépendantes, contractants généraux clé en main, spécialistes de l'aménagement de bureaux et AMO.`,
+  `En volume, <strong>Bouygues Bâtiment Île-de-France</strong> (1,7 Md€), <strong>Léon Grosse</strong> et <strong>GSE</strong> dominent. Dans l'aménagement de bureaux, <strong>Tétris</strong> (236 M€) devance Korus et Kardham.`,
+  `La rentabilité est mince : <strong>marge d'EBE médiane de ${pct(margeMed)}</strong>, et ${negatifs.length} acteurs sur ${n} ont un EBE moyen négatif sur trois ans.`,
+  `Avant de signer, regardez la <strong>solidité financière</strong> (fonds propres, BFR, délais fournisseurs) autant que les références : chaque fiche donne les comptes sur cinq ans.`,
+];
+
+const faq = [
+  { q: 'Quel est le premier contractant général en France ?', r: "En chiffre d'affaires, la plus grosse entité de bâtiment du panel est Bouygues Bâtiment Île-de-France (1,7 Md€ en 2025), une entreprise générale filiale de Bouygues Construction. Parmi les contractants généraux « purs », qui conçoivent et sous-traitent la totalité des travaux, le leader est GSE (933 M€ consolidés à fin mars 2026), filiale de l'allemand GOLDBECK. Dans l'aménagement de bureaux, le leader est Tétris (groupe JLL), avec 236 M€." },
+  { q: 'Pourquoi un même groupe apparaît-il plusieurs fois ?', r: "Le classement est établi par entité juridique, à partir des comptes déposés par chaque société. Bouygues, Eiffage, VINCI, Fayat ou Spie batignolles y figurent donc par leurs filiales opérationnelles, qui ont chacune leur périmètre et leurs comptes. Il ne faut pas additionner une filiale et son groupe." },
+  { q: "Comment sont calculées les notes ?", r: "La solidité financière est calculée à partir des comptes : autonomie financière, marge d'EBE moyenne sur trois ans et régularité du résultat net. L'attractivité et le potentiel stratégique sont des appréciations de la rédaction. Le score tertiaire est la moyenne de cinq critères : expertise tertiaire, accès aux donneurs d'ordre, capacité de réalisation, modèle de marge et capacité financière." },
+  { q: "Le chiffre d'affaires d'un contractant général est-il comparable à celui d'un architecte ou d'un AMO ?", r: "Non. Le chiffre d'affaires d'un contractant général inclut la totalité des travaux qu'il sous-traite, alors qu'un AMO ou un architecte ne facture que ses honoraires. Pour comparer la rentabilité, il faut regarder l'EBE et, idéalement, la marge sur travaux." },
+  { q: 'Les données sont-elles à jour ?', r: `Les comptes sont ceux du dernier exercice publié par chaque société à la date de mise à jour (${dateFr(MAJ)}). Certaines sociétés ne publient pas leurs comptes ou demandent leur confidentialité : leurs indicateurs sont alors indiqués « n.d. ».` },
+];
+
+const visuel = await getImage({ src: photo('grand-plateau'), width: 1200, format: 'jpg' });
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Article', headline: titre, description, datePublished: dateIso(MAJ), dateModified: dateIso(MAJ),
+    inLanguage: 'fr-FR', mainEntityOfPage: abs(urlClassement), articleSection: r.titre, abstract: essentiel.map((e) => e.replace(/<[^>]+>/g, '')).join(' '),
+    author: { '@type': 'Organization', name: site.redaction, url: abs('/a-propos') }, publisher: editeur, image: abs(visuel.src),
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'ItemList', name: titre,
+    itemListElement: contractants.map((c) => ({ '@type': 'ListItem', position: c.rang, url: abs(urlFiche(c)), name: c.nom })),
+  },
+  schemaFilAriane(miettes),
+  schemaFaq(faq),
+];
+---
+<Base title={`Top 40 des contractants généraux en France : classement 2026 | ${site.nom}`} description={description} type="article" schema={schema} image="grand-plateau">
+  <div class="conteneur">
+    <FilAriane miettes={miettes} />
+    <div class="article">
+      <article class="article-corps">
+        <span class="surtitre">{r.titre} · Classement</span>
+        <h1>{titre}</h1>
+        <p class="article-meta">
+          <span>Mis à jour le <time datetime={dateIso(MAJ)}>{dateFr(MAJ)}</time></span>
+          <span>{n} sociétés analysées</span>
+          <span>Comptes officiels sur 5 ans</span>
+        </p>
+        <Photo nom="grand-plateau" alt="Grand plateau de bureaux en open space sous verrière" classe="photo bandeau" prioritaire />
+        <section class="essentiel" aria-labelledby="essentiel">
+          <h2 id="essentiel">L'essentiel en 30 secondes</h2>
+          <ul>{essentiel.map((e) => <li set:html={e} />)}</ul>
+        </section>
+        <div class="prose">
+          <p>
+            Qui sont les principaux contractants généraux en France, combien pèsent-ils et sont-ils solides ? Ce classement réunit {n} sociétés
+            qui prennent en charge des projets de bâtiment et d'aménagement de bureaux « de bout en bout ». Il s'appuie sur leurs
+            comptes déposés au greffe, sur le registre national des entreprises et sur leurs publications. Si vous découvrez le sujet, commencez par
+            <a href="/guides/contractant-general-entreprise-generale-lots-separes">la différence entre contractant général, entreprise générale et lots séparés</a>,
+            puis <a href="/guides/choisir-contractant-general-criteres">notre grille en 12 critères pour choisir un contractant général</a>.
+          </p>
+
+          <h2 id="methode">Comment le classement est construit</h2>
+          <p>
+            Aucun classement officiel des contractants généraux n'existe. Nous avons retenu quatre familles d'acteurs, classées selon le
+            <strong>chiffre d'affaires du dernier exercice publié</strong> :
+          </p>
+          <ul>
+            {Object.entries(SEGMENTS).map(([k, s]) => <li><strong>{s.nom}</strong> : {parSeg(k).length} sociétés.</li>)}
+          </ul>
+          <p>
+            Chaque ligne correspond à <strong>une entité juridique</strong> (un numéro SIREN). Les grands groupes apparaissent donc à travers leurs
+            filiales opérationnelles, sans double compte. Les comptes sont des <strong>comptes sociaux</strong>, sauf pour Léon Grosse, GSE et Quartus,
+            qui publient des comptes consolidés. Les exercices antérieurs à 2020 ne sont pas repris.
+          </p>
+          <div class="encadre attention">
+            <p><strong>À savoir</strong> : le chiffre d'affaires d'un contractant général inclut la totalité des travaux qu'il sous-traite. Tétris affiche ainsi une « marge brute » de 89 % de son chiffre d'affaires, car la sous-traitance est classée en charges externes, alors que sa valeur ajoutée réelle est bien plus faible. Pour comparer les sociétés, regardez l'EBE et la solidité financière plutôt que le seul volume d'activité.</p>
+          </div>
+        </div>
+      </article>
+      <aside class="sommaire" aria-label="Sommaire">
+        <h2>Dans ce classement</h2>
+        <ol>
+          <li><a href="#methode">La méthode</a></li>
+          <li><a href="#classement">Le classement complet</a></li>
+          <li><a href="#enseignements">Ce qu'il faut retenir</a></li>
+          <li><a href="#segments">Lecture par famille d'acteurs</a></li>
+          <li><a href="#rentabilite">Rentabilité</a></li>
+          <li><a href="#cartographie">Cartographie</a></li>
+          <li><a href="#modeles">Modèles économiques</a></li>
+          <li><a href="#quel-acteur">Quel acteur pour quel projet</a></li>
+          <li><a href="#questions-frequentes">Questions fréquentes</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ol>
+      </aside>
+    </div>
+
+    <section class="section prose large" aria-labelledby="classement">
+      <h2 id="classement">Le classement complet des {n} sociétés</h2>
+      <p class="discret">Chiffre d'affaires en millions d'euros. Cliquez sur une société pour ouvrir sa fiche détaillée (identité, comptes sur 5 ans, SWOT, liens officiels).</p>
+      <table class="classement">
+        <thead>
+          <tr>
+            <th scope="col">#</th><th scope="col">Société</th><th scope="col">Famille</th><th scope="col">Exercice</th>
+            <th scope="col" class="num">CA (M€)</th><th scope="col" class="num">Var. N-1</th><th scope="col" class="num">Croiss. annuelle moy.</th>
+            <th scope="col" class="num">Marge d’EBE (3 ans)</th><th scope="col" class="num">Autonomie financière</th><th scope="col" class="num">BFR (jours)</th>
+            <th scope="col" class="num">Solidité</th><th scope="col" class="num">Note</th><th scope="col">Site</th>
+          </tr>
+        </thead>
+        <tbody>
+          {contractants.map((c) => (
+            <tr>
+              <td>{c.rang}</td>
+              <th scope="row"><a href={urlFiche(c)}>{c.nom}</a>{c.comptes.type === 'consolidés' && <small> (consolidé)</small>}</th>
+              <td>{SEGMENTS[c.segment as keyof typeof SEGMENTS].court}</td>
+              <td>{c.indicateurs.exercice ?? 'n.d.'}</td>
+              <td class="num">{nb(c.indicateurs.ca)}</td>
+              <td class="num">{pct(c.indicateurs.croissance)}</td>
+              <td class="num">{pct(c.indicateurs.tcam)}</td>
+              <td class="num">{pct(c.indicateurs.margeEbe3)}</td>
+              <td class="num">{pct(c.indicateurs.autonomie)}</td>
+              <td class="num">{nb(c.indicateurs.bfr, 0)}</td>
+              <td class="num">{c.notes.solidite ? `${c.notes.solidite}/5` : 'n.d.'}</td>
+              <td class="num"><strong>{nb(c.notes.globale)}</strong></td>
+              <td>{c.site ? <a href={c.site.url} rel="noopener" aria-label={`Site officiel : ${c.site.label}`}>Site ↗</a> : '–'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="discret">
+        Note globale : moyenne de l'attractivité et du potentiel (appréciations de la rédaction) et de la solidité financière (calculée).
+        Croissance annuelle moyenne : taux de croissance annuel moyen du CA sur les exercices disponibles depuis 2020. BFR : besoin en fonds de roulement d'exploitation, en jours de chiffre d'affaires.
+      </p>
+    </section>
+
+    <div class="prose texte-max section">
+      <h2 id="enseignements">Ce qu'il faut retenir</h2>
+      <ol>
+        <li>
+          <strong>Un marché à trois étages.</strong> Les filiales des majors (<a href="https://www.bouygues-construction.com" rel="noopener">Bouygues</a>,
+          <a href="https://vinci-construction.com/fr/" rel="noopener">VINCI</a>, <a href="https://www.eiffage.com" rel="noopener">Eiffage</a>,
+          <a href="https://www.spiebatignolles.fr" rel="noopener">Spie batignolles</a>, <a href="https://www.fayat.com" rel="noopener">Fayat</a>) dominent le marché en volume :
+          <a href={lien('bouygues-batiment-ile-de-france').href}>Bouygues Bâtiment Île-de-France</a> réalise à elle seule 1,7 Md€.
+          Les indépendants <a href={lien('leon-grosse').href}>Léon Grosse</a>, <a href={lien('demathieu-bard-construction').href}>Demathieu Bard</a> et
+          <a href={lien('gcc').href}>GCC</a> dépassent chacun 700 M€. Le contractant général « pur » est dominé par <a href={lien('gse').href}>GSE</a> (933 M€ consolidés).
+          Dans l'aménagement de bureaux, <a href={lien('tetris').href}>Tétris</a> (236 M€) devance <a href={lien('korus').href}>Korus</a>
+          (155 à 168 M€ revendiqués par le groupe, dont 67 M€ dans l'entité française) et <a href={lien('kardham').href}>Kardham</a> (environ 100 M€).
+        </li>
+        <li>
+          <strong>Une rentabilité mince.</strong> La marge d'EBE médiane ressort à {pct(margeMed)} sur trois ans. Les marges supérieures à 5 % relèvent de modèles
+          particuliers : industrialisation (<a href={lien('briand').href}>Briand</a>), petites structures spécialisées (<a href={lien('isospace').href}>Isospace</a>,
+          <a href={lien('cicad').href}>Cicad</a>) ou honoraires (<a href={lien('turner-townsend-france').href}>Turner &amp; Townsend</a>, <a href={lien('archimage').href}>Archimage</a>).
+        </li>
+        <li>
+          <strong>Le BFR sépare les modèles.</strong> Chez Bouygues, le besoin en fonds de roulement est négatif (−24 jours de CA pour la filiale francilienne) : les clients financent
+          le chantier. Les filiales Eiffage, VINCI et Fayat portent plus de 100 jours de CA. Côté aménagement de bureaux, Tétris immobilise 103 jours de CA,
+          d'où l'importance des échéanciers d'acomptes dans les contrats.
+        </li>
+        <li>
+          <strong>Peu d'acteurs maîtrisent vraiment l'aménagement tertiaire.</strong> Une dizaine seulement combinent expertise des plateaux, capacité multi-sites
+          et solidité financière. La dynamique concurrentielle est portée par les offres intégrées des conseils internationaux (<a href="https://www.jll.fr" rel="noopener">JLL</a> avec Tétris,
+          <a href="https://www.cbre.fr" rel="noopener">CBRE</a> avec Turner &amp; Townsend) et par les ensembliers (<a href={lien('linkcity-ile-de-france').href}>Linkcity</a>,
+          <a href={lien('ga-smart-building').href}>GA Smart Building</a>).
+        </li>
+      </ol>
+
+      <h2 id="segments">Lecture par famille d'acteurs</h2>
+      <table>
+        <thead><tr><th>Famille</th><th class="num">Sociétés</th><th class="num">CA cumulé (M€)</th><th class="num">Marge d'EBE médiane</th><th class="num">BFR médian (j)</th><th class="num">Autonomie fin. médiane</th></tr></thead>
+        <tbody>
+          {Object.entries(SEGMENTS).map(([k, s]) => {
+            const l = parSeg(k);
+            return (
+              <tr>
+                <td>{s.nom}</td><td class="num">{l.length}</td>
+                <td class="num">{nb(l.reduce((t, c) => t + (c.indicateurs.ca ?? 0), 0), 0)}</td>
+                <td class="num">{pct(mediane(l.map((c) => c.indicateurs.margeEbe3)))}</td>
+                <td class="num">{nb(mediane(l.map((c) => c.indicateurs.bfr)), 0)}</td>
+                <td class="num">{pct(mediane(l.map((c) => c.indicateurs.autonomie)))}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <ul>
+        <li>
+          <strong>Majors et entreprises générales.</strong> Leur force tient au volume, à l'ingénierie et à la trésorerie de leur groupe. Les filiales Bouygues sont les plus homogènes.
+          Les filiales Eiffage et VINCI ont des fonds propres très faibles (1 à 5 % du bilan) et s'appuient sur la garantie implicite de leur groupe. Les indépendants croissent vite,
+          avec des marges de 2 à 3 % ; la dégradation de <a href={lien('gcc').href}>GCC</a> en 2025 (EBE ramené de 34 à 4 M€) mérite d'être suivie.
+        </li>
+        <li>
+          <strong>Contractants généraux clé en main.</strong> <a href={lien('gse').href}>GSE</a> est la référence du modèle : conception intégrée, travaux entièrement sous-traités,
+          adossement au groupe allemand <a href="https://www.goldbeck.de" rel="noopener">GOLDBECK</a>. <a href={lien('ga-smart-building').href}>GA</a> et <a href={lien('briand').href}>Briand</a>
+          illustrent l'intégration industrielle (béton, métal, bois), qui produit soit des marges élevées (Briand), soit un BFR et un endettement lourds (GA).
+        </li>
+        <li>
+          <strong>Aménagement de bureaux.</strong> Le marché est fragmenté. <a href={lien('tetris').href}>Tétris</a> est le leader ; <a href={lien('kardham').href}>Kardham</a> et
+          <a href={lien('korus').href}>Korus</a> intègrent conseil, conception, travaux et mobilier (Korus y ajoute la maintenance de réseaux multi-sites) ;
+          <a href={lien('ovga-design-build').href}>OVGA</a> joue la double casquette d'architecte et de contractant ; les PME comme
+          <a href={lien('isospace').href}>Isospace</a> et <a href={lien('cicad').href}>Cicad</a> sont rentables mais limitées en capacité.
+        </li>
+        <li>
+          <strong>AMO et project management.</strong> Marges élevées et peu de capital engagé, mais ces acteurs ne réalisent pas les travaux : ils pilotent pour le compte du client.
+          Voir aussi <a href="/guides/etapes-projet-amenagement-bureaux">les étapes d'un projet de bureaux</a>.
+        </li>
+      </ul>
+
+      <h2 id="rentabilite">Rentabilité : les plus performants et les plus fragiles</h2>
+      <h3>Top 10 de la marge d'EBE (moyenne sur 3 ans)</h3>
+      <table>
+        <thead><tr><th>Société</th><th class="num">Marge d'EBE</th><th class="num">CA (M€)</th></tr></thead>
+        <tbody>{topRenta.map((c) => <tr><td><a href={urlFiche(c)}>{c.nom}</a></td><td class="num">{pct(c.indicateurs.margeEbe3)}</td><td class="num">{nb(c.indicateurs.ca)}</td></tr>)}</tbody>
+      </table>
+      <h3>Sociétés à EBE moyen négatif</h3>
+      <table>
+        <thead><tr><th>Société</th><th class="num">Marge d'EBE</th><th class="num">Autonomie financière</th></tr></thead>
+        <tbody>{negatifs.sort((a, b) => a.indicateurs.margeEbe3! - b.indicateurs.margeEbe3!).map((c) => <tr><td><a href={urlFiche(c)}>{c.nom}</a></td><td class="num">{pct(c.indicateurs.margeEbe3)}</td><td class="num">{pct(c.indicateurs.autonomie)}</td></tr>)}</tbody>
+      </table>
+      <p class="discret">L'EBE 2024 de Chantiers Modernes Construction est exceptionnellement élevé et le CA d'Elcimaï Réalisations très variable : leurs marges sont à lire avec prudence.</p>
+
+      <h2 id="cartographie">Cartographie : taille et expertise tertiaire</h2>
+      <figure class="carto">
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="carto-titre carto-desc">
+          <title id="carto-titre">Positionnement des contractants généraux</title>
+          <desc id="carto-desc">Nuage de points : en abscisse l'expertise tertiaire notée de 1 à 5, en ordonnée le chiffre d'affaires en échelle logarithmique.</desc>
+          {[1, 10, 100, 1000].map((v) => (
+            <g>
+              <line x1={M.g} x2={W - M.d} y1={ys(v)} y2={ys(v)} class="grille-ligne" />
+              <text x={M.g - 8} y={ys(v) + 4} text-anchor="end" class="axe">{v >= 1000 ? '1 Md€' : `${v} M€`}</text>
+            </g>
+          ))}
+          {[1, 2, 3, 4, 5].map((t) => <text x={xs(t)} y={H - M.b + 20} text-anchor="middle" class="axe">{t}</text>)}
+          <text x={(W + M.g) / 2} y={H - 8} text-anchor="middle" class="axe titre-axe">Expertise tertiaire (1 = faible, 5 = spécialiste)</text>
+          {points.map((p) => (
+            <a href={urlFiche(p.c)}>
+              <circle cx={p.x} cy={p.y} r="6" fill={couleurs[p.c.segment]} class="point"><title>{`${p.c.nom} : ${nb(p.c.indicateurs.ca)} M€, expertise tertiaire ${p.c.grille.tert}/5`}</title></circle>
+              {etiquetes.has(p.c.slug) && <text x={aGauche.has(p.c.slug) ? p.x - 9 : p.x + 9} y={p.y + 4} text-anchor={aGauche.has(p.c.slug) ? 'end' : 'start'} class="etiquette">{p.c.nom.split(' (')[0].split(' –')[0]}</text>}
+            </a>
+          ))}
+        </svg>
+        <figcaption>
+          {Object.entries(SEGMENTS).map(([k, s]) => <span class="legende"><span class="pastille" style={`background:${couleurs[k]}`} />{s.court}</span>)}
+          <span>OVGA, qui ne publie pas ses comptes, n'apparaît pas sur le graphique.</span>
+        </figcaption>
+      </figure>
+
+      <h2 id="modeles">Les modèles économiques</h2>
+      <table>
+        <thead><tr><th>Modèle</th><th>Exemples</th><th>Source de marge</th><th>Portage du risque</th><th>Pertinence pour des bureaux</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Entreprise générale de major</strong></td><td><a href={lien('bouygues-batiment-ile-de-france').href}>Bouygues Bâtiment IDF</a>, <a href={lien('eiffage-construction-tertiaire').href}>Eiffage Construction Tertiaire</a></td><td>Marge sur travaux, gros œuvre en partie produit en interne</td><td>Prix et délai forfaitaires</td><td>Faible pour un plateau seul, forte pour un immeuble entier</td></tr>
+          <tr><td><strong>Entreprise générale indépendante</strong></td><td><a href={lien('leon-grosse').href}>Léon Grosse</a>, <a href={lien('demathieu-bard-construction').href}>Demathieu Bard</a></td><td>Marge sur travaux</td><td>Forfait</td><td>Moyenne : restructuration d'immeubles</td></tr>
+          <tr><td><strong>Contractant général pur</strong></td><td><a href={lien('gse').href}>GSE</a>, <a href={lien('elcimai-realisations').href}>Elcimaï Réalisations</a></td><td>Marge sur achats et ingénierie, travaux entièrement sous-traités</td><td>Forfait global avec conception</td><td>Faible : surtout logistique et industrie</td></tr>
+          <tr><td><strong>Contractant général industrialisé</strong></td><td><a href={lien('ga-smart-building').href}>GA</a>, <a href={lien('briand').href}>Briand</a>, <a href={lien('ossabois').href}>Ossabois</a></td><td>Marge industrielle et marge de contractant</td><td>Forfait et risque usine</td><td>Moyenne : bureaux neufs hors-site</td></tr>
+          <tr><td><strong>Aménagement design &amp; build</strong></td><td><a href={lien('tetris').href}>Tétris</a>, <a href={lien('korus').href}>Korus</a>, <a href={lien('kardham').href}>Kardham</a>, <a href={lien('isospace').href}>Isospace</a>, <a href={lien('ovga-design-build').href}>OVGA</a></td><td>Honoraires de conception, marge sur travaux et sur mobilier</td><td>Forfait prix-délai sur le plateau</td><td><strong>Forte : cœur de métier</strong></td></tr>
+          <tr><td><strong>Agenceur, second œuvre</strong></td><td><a href={lien('agb-agencement-general-du-batiment').href}>AGB</a>, <a href={lien('spie-batignolles-presance').href}>Spie batignolles Présance</a></td><td>Marge de production</td><td>Par lot ou tous corps d'état</td><td>Forte pour maîtriser le coût au m²</td></tr>
+          <tr><td><strong>Ensemblier, promoteur</strong></td><td><a href={lien('linkcity-ile-de-france').href}>Linkcity</a>, <a href={lien('quartus').href}>Quartus</a></td><td>Marge de promotion</td><td>Risque foncier et commercial</td><td>Moyenne : reconversion d'immeubles</td></tr>
+          <tr><td><strong>AMO, project management</strong></td><td><a href={lien('turner-townsend-france').href}>Turner &amp; Townsend</a>, <a href={lien('archimage').href}>Archimage</a>, <a href={lien('parella').href}>Parella</a></td><td>Honoraires</td><td>Faible (obligation de moyens)</td><td>Pilotage et contrôle des coûts</td></tr>
+        </tbody>
+      </table>
+      <p>
+        En pratique, la marge sur travaux d'un aménageur se situe souvent entre 8 et 15 % du montant des travaux, et l'EBE publié n'en conserve que 3 à 7 % une fois les frais de structure payés.
+        Pour les ordres de grandeur de prix, voir <a href="/guides/prix-amenagement-bureaux-m2">le prix d'un aménagement de bureaux au m²</a>.
+      </p>
+
+      <h2 id="quel-acteur">Quel acteur pour quel projet ?</h2>
+      <table>
+        <thead><tr><th>Votre projet</th><th>Acteurs les mieux placés</th><th>Pourquoi</th></tr></thead>
+        <tbody>
+          <tr><td>Déploiement multi-sites ou grand siège (plus de 5 000 m²)</td><td><a href={lien('tetris').href}>Tétris</a>, <a href={lien('kardham').href}>Kardham</a>, <a href={lien('korus').href}>Korus</a></td><td>Couverture nationale, conception intégrée et capacité à mener plusieurs chantiers à la fois. Tétris est le plus solide financièrement ; Korus est le seul à intégrer aussi la maintenance des sites.</td></tr>
+          <tr><td>Plateau de 150 à 2 000 m² en Île-de-France</td><td><a href={lien('isospace').href}>Isospace</a>, <a href={lien('cicad').href}>Cicad</a></td><td>PME rentables et peu endettées, mais capacité limitée à quelques chantiers importants en parallèle.</td></tr>
+          <tr><td>Achat de second œuvre en direct ou en contrat-cadre</td><td><a href={lien('agb-agencement-general-du-batiment').href}>AGB</a>, <a href={lien('spie-batignolles-presance').href}>Spie batignolles Présance</a></td><td>Production en propre ou petits travaux tous corps d'état, sans étage de marge de contractant général ; Présance est adapté aux bureaux occupés.</td></tr>
+          <tr><td>Restructuration lourde d'un immeuble parisien</td><td><a href={lien('pradeau-morin').href}>Pradeau Morin</a>, <a href={lien('ovga-design-build').href}>OVGA</a>, <a href={lien('eiffage-construction-tertiaire').href}>Eiffage Construction Tertiaire</a>, <a href={lien('bouygues-batiment-ile-de-france').href}>Bouygues Bâtiment IDF</a></td><td>Ingénierie de réhabilitation et capacité à porter un immeuble entier. Pradeau Morin reste fragile financièrement et OVGA ne publie pas ses comptes.</td></tr>
+          <tr><td>Reconversion d'un immeuble obsolète</td><td><a href={lien('linkcity-ile-de-france').href}>Linkcity</a>, <a href={lien('ga-smart-building').href}>GA Smart Building</a></td><td>Montage et conception-réalisation intégrés ; tous deux sont exposés au cycle de l'investissement immobilier.</td></tr>
+          <tr><td>Pilotage et contrôle des coûts</td><td><a href={lien('turner-townsend-france').href}>Turner &amp; Townsend</a>, <a href={lien('archimage').href}>Archimage</a>, <a href={lien('parella').href}>Parella</a></td><td>Assistance à maîtrise d'ouvrage sans portage du risque travaux.</td></tr>
+        </tbody>
+      </table>
+      <h3>Score tertiaire : le top 15</h3>
+      <table>
+        <thead><tr><th>Société</th><th class="num">Expertise tertiaire</th><th class="num">Score tertiaire</th><th>Rôle dans les projets de bureaux</th></tr></thead>
+        <tbody>{topTertiaire.map((c) => <tr><td><a href={urlFiche(c)}>{c.nom}</a></td><td class="num">{c.grille.tert}/5</td><td class="num">{nb(c.notes.tertiaire)}</td><td>{c.grille.role}</td></tr>)}</tbody>
+      </table>
+      <div class="encadre astuce">
+        <p><strong>Avant de signer</strong> : demandez les attestations d'assurance décennale et de responsabilité civile, la part de travaux sous-traités et la garantie de paiement des sous-traitants (loi de 1975). Vérifiez aussi les comptes : des délais fournisseurs supérieurs à 120 jours signalent une tension de trésorerie. Prévoyez une retenue de garantie de 5 % et une caution de restitution d'acompte. Plus de détails dans <a href="/guides/reception-travaux-reserves-garanties">notre guide sur la réception des travaux et les garanties</a>.</p>
+      </div>
+
+      <h2 id="limites">Limites de l'étude</h2>
+      <ul>
+        <li>Le périmètre est un choix éditorial : contractants généraux, entreprises générales, aménageurs et AMO réunis selon une même grille.</li>
+        <li>Les comptes proviennent des dépôts publics. Kardham ne publie plus ses comptes depuis 2022 et OVGA depuis 2016 ; les comptes consolidés du groupe Korus ne sont pas publiés ; l'exercice 2022 de Léon Grosse est absent des données.</li>
+        <li>La part de sous-traitance et la répartition du chiffre d'affaires par activité ne figurent pas dans les comptes publiés.</li>
+        <li>Notre méthode éditoriale est décrite sur la page <a href="/a-propos">À propos</a>.</li>
+      </ul>
+    </div>
+
+    <div class="prose texte-max">
+      <section class="faq">
+        <h2 id="questions-frequentes">Questions fréquentes</h2>
+        {faq.map((f) => <details><summary>{f.q}</summary><p>{f.r}</p></details>)}
+      </section>
+      <section class="sources">
+        <h2 id="sources">Sources</h2>
+        <ul>{sourcesEtude.map((s) => <li><a href={s.url} rel="noopener">{s.label}</a></li>)}</ul>
+        <p>Chaque fiche société détaille ses propres sources : fiche officielle de l'Annuaire des entreprises, comptes sur Pappers, site de la société et articles de presse.</p>
+      </section>
+    </div>
+
+    <section class="section">
+      <h2>Les {n} fiches sociétés</h2>
+      <ol class="liste-fiches">
+        {contractants.map((c) => <li><a href={urlFiche(c)}>{c.nom}</a> <span>{nb(c.indicateurs.ca)} M€</span></li>)}
+      </ol>
+    </section>
+  </div>
+</Base>

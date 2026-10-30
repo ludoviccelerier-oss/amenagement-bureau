@@ -3,6 +3,8 @@ title: "Choisir un contractant général : la grille en 12 critères"
 seoTitle: "Choisir un contractant général pour ses bureaux : 12 critères pour comparer, partout en France"
 description: "Comment comparer des contractants généraux pour l'aménagement de vos bureaux, à Paris comme en région : 12 critères, les questions à poser et les pièges des devis."
 rubrique: prestataires
+photo: grand-plateau
+photoAlt: "Grand plateau de bureaux en open space sous verrière"
 ordre: 2
 date: 2026-10-29
 updated: 2026-10-29
@@ -20,7 +22,7 @@ faq:
     r: "Les grands acteurs nationaux ont souvent des agences à Lyon, Marseille, Lille, Bordeaux, Nantes ou Toulouse. Les acteurs régionaux se repèrent par leurs références locales, les recommandations de votre réseau, du bailleur ou du commercialisateur de vos locaux."
 ---
 
-Vous avez décidé de passer par un contractant général (si ce n'est pas encore fait, lisez [notre comparatif des formules](/guides/contractant-general-entreprise-generale-lots-separes)). Reste à choisir le bon. Voici une grille simple, à copier dans un tableur.
+Vous avez décidé de passer par un contractant général (si ce n'est pas encore fait, lisez [notre comparatif des formules](/guides/contractant-general-entreprise-generale-lots-separes)). Reste à choisir le bon. Voici une grille simple, à copier dans un tableur. Pour repérer les acteurs et comparer leur solidité financière, consultez aussi [notre Top 40 des contractants généraux en France](/prestataires/top-40-contractants-generaux), avec une fiche et les comptes sur 5 ans pour chaque société.
 
 ## Avant de consulter : le cahier des charges
 

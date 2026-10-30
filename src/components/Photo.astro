@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import { photo, credit } from '../lib/photos';
+interface Props { nom: string; alt: string; classe?: string; prioritaire?: boolean; sizes?: string }
+const { nom, alt, classe = 'photo', prioritaire = false, sizes = '(min-width: 64rem) 42rem, 100vw' } = Astro.props;
+const c = credit(nom);
+---
+<figure class={classe}>
+  <Image src={photo(nom)} alt={alt} widths={[480, 800, 1200, 1600]} sizes={sizes} format="webp" quality={72}
+    loading={prioritaire ? 'eager' : 'lazy'} fetchpriority={prioritaire ? 'high' : undefined} />
+  {c && <figcaption>Photo : {c.auteur}, <a href={c.source} rel="noopener">{c.licence}</a>, Wikimedia Commons</figcaption>}
+</figure>

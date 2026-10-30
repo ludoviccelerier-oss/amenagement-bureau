@@ -6,6 +6,8 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 import { abs, editeur } from '../lib/schema';
+import { getImage } from 'astro:assets';
+import { photo } from '../lib/photos';
 
 interface Props {
   title: string;
@@ -13,10 +15,11 @@ interface Props {
   type?: 'website' | 'article';
   schema?: Record<string, unknown>[];
   noindex?: boolean;
+  image?: string; // nom d'une photo de src/assets/photos
 }
-const { title, description, type = 'website', schema = [], noindex = false } = Astro.props;
+const { title, description, type = 'website', schema = [], noindex = false, image } = Astro.props;
 const canonical = abs(Astro.url.pathname.replace(/\/$/, '') || '/');
-const og = abs('/og.png');
+const og = image ? abs((await getImage({ src: photo(image), width: 1200, height: 630, fit: 'cover', format: 'jpg' })).src) : abs('/og.png');
 
 const siteSchema = {
   '@context': 'https://schema.org',

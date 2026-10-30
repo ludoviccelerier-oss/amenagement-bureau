@@ -3,6 +3,9 @@ import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import FilAriane from '../../components/FilAriane.astro';
 import CarteGuide from '../../components/CarteGuide.astro';
+import Photo from '../../components/Photo.astro';
+import { getImage } from 'astro:assets';
+import { photo } from '../../lib/photos';
 import { rubrique, site } from '../../data/site';
 import { guidesTries, guidesDe, tempsLecture, urlGuide, type Guide } from '../../lib/guides';
 import { abs, dateFr, dateIso, editeur, schemaFaq, schemaFilAriane } from '../../lib/schema';
@@ -23,6 +26,7 @@ const miettes = [
   { label: r.nom, href: `/rubriques/${r.id}` },
   { label: d.title, href: urlGuide(guide) },
 ];
+const visuel = await getImage({ src: photo(d.photo), width: 1200, format: 'jpg' });
 const article = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -36,11 +40,11 @@ const article = {
   abstract: d.essentiel.join(' '),
   author: { '@type': 'Organization', name: site.redaction, url: abs('/a-propos') },
   publisher: editeur,
-  image: abs('/og.png'),
+  image: abs(visuel.src),
 };
 const schema = [article, schemaFilAriane(miettes), ...(d.faq.length ? [schemaFaq(d.faq)] : [])];
 ---
-<Base title={d.seoTitle} description={d.description} type="article" schema={schema}>
+<Base title={d.seoTitle} description={d.description} type="article" schema={schema} image={d.photo}>
   <div class="conteneur">
     <FilAriane miettes={miettes} />
     <div class="article">
@@ -51,6 +55,7 @@ const schema = [article, schemaFilAriane(miettes), ...(d.faq.length ? [schemaFaq
           <span>Mis à jour le <time datetime={dateIso(d.updated)}>{dateFr(d.updated)}</time></span>
           <span>{tempsLecture(guide)} min de lecture</span>
         </p>
+        <Photo nom={d.photo} alt={d.photoAlt} classe="photo bandeau" prioritaire />
         <section class="essentiel" aria-labelledby="essentiel">
           <h2 id="essentiel">L'essentiel en 30 secondes</h2>
           <ul>{d.essentiel.map((e) => <li set:html={e} />)}</ul>

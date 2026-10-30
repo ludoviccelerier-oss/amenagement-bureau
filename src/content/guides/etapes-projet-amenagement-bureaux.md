@@ -3,6 +3,8 @@ title: "Les 7 étapes d'un projet d'aménagement de bureaux"
 seoTitle: "Projet d'aménagement de bureaux : les 7 étapes, du besoin à l'emménagement"
 description: "Programmation, conception, consultation, travaux, réception, emménagement : les 7 étapes d'un projet de bureaux, qui fait quoi et ce que vous devez valider."
 rubrique: etapes
+photo: couloir-vitre
+photoAlt: "Circulation bordée de cloisons vitrées à cadre noir dans un plateau de bureaux"
 ordre: 1
 date: 2026-10-29
 updated: 2026-10-29
