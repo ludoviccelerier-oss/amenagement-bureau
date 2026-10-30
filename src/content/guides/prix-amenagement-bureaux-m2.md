@@ -1,7 +1,7 @@
 ---
 title: "Combien coûte l'aménagement de bureaux au m² ?"
-seoTitle: "Prix de l'aménagement de bureaux au m² : fourchettes et postes de coût"
-description: "Prix au m² de l'aménagement de bureaux selon le niveau de prestation, poste par poste : travaux, mobilier, honoraires, aléas. Ordres de grandeur pour bâtir votre budget."
+seoTitle: "Prix de l'aménagement de bureaux au m² en 2026"
+description: "Prix au m² de l'aménagement de bureaux selon le niveau de prestation, poste par poste : travaux, mobilier, honoraires, aléas. De quoi bâtir votre budget."
 rubrique: budget-financement
 photo: bureau-blanc
 photoAlt: "Poste de travail aménagé avec bureau blanc, rangements et siège ergonomique"
@@ -75,6 +75,8 @@ Un budget complet ne se limite pas aux travaux. Pensez à :
 | **Total** | | **≈ 594 000 €**, soit environ 1 190 €/m² tout compris |
 
 On retient une règle simple : **le budget « tout compris » est souvent 1,5 à 2 fois le prix des seuls travaux**.
+
+Pour aller plus loin : la traduction de ce budget en loyer mensuel, avec l'impact d'un paiement comptant, d'un crédit ou d'une location, est détaillée dans ce dossier sur le [coût de l'aménagement de bureaux au m² en 2026](https://c2o-capital.com/blog/cout-amenagement-bureaux-m2). Et pour situer Paris face à Londres ou Francfort, voir ce [comparatif du coût d'aménagement de bureaux en Europe](https://c2o-capital.com/blog/cout-amenagement-bureaux-europe-2026).
 
 ## Comment réduire la facture sans sacrifier le projet
 

@@ -1,7 +1,7 @@
 ---
 title: "Contractant général, entreprise générale, lots séparés : le comparatif"
-seoTitle: "Contractant général vs entreprise générale vs lots séparés : comparatif pour vos bureaux"
-description: "Qui choisir pour aménager vos bureaux : un contractant général, une entreprise générale avec un architecte, ou des lots séparés ? Le comparatif sur le prix, les délais, les risques et le pilotage."
+seoTitle: "Contractant général, entreprise générale ou lots séparés ?"
+description: "Contractant général, entreprise générale avec architecte ou lots séparés : le comparatif pour aménager vos bureaux, sur le prix, les délais et les risques."
 rubrique: prestataires
 photo: postes-bois
 photoAlt: "Plateau de bureaux avec postes de travail en open space et parquet bois"

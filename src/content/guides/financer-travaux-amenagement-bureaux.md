@@ -1,7 +1,7 @@
 ---
 title: "Comment financer l'aménagement de ses bureaux ?"
-seoTitle: "Financer l'aménagement de bureaux : fonds propres, crédit, leasing, participation du bailleur"
-description: "Fonds propres, emprunt, leasing et location financière, participation du bailleur, franchise de loyer : les solutions pour financer l'aménagement de vos bureaux, leurs avantages et leurs limites."
+seoTitle: "Financer l'aménagement de bureaux : crédit, leasing…"
+description: "Fonds propres, emprunt, leasing, location financière, participation du bailleur, franchise de loyer : comment financer l'aménagement de vos bureaux."
 rubrique: budget-financement
 photo: espace-detente
 photoAlt: "Espace détente de bureaux avec canapés, plantes et luminaires"
@@ -62,6 +62,8 @@ Un financeur achète les biens et vous les loue pour une durée fixe, en génér
 
 </div>
 
+Pour voir ces options côte à côte (coût total, effet sur la trésorerie, souplesse), ce [comparatif des 4 façons de financer l'aménagement de bureaux](https://c2o-capital.com/blog/financer-amenagement-bureaux-solutions) les met en regard dans un tableau.
+
 ## 4. La contribution du bailleur
 
 Lors de la négociation d'un nouveau bail ou d'un renouvellement, le bailleur peut participer à vos travaux, en contrepartie d'un engagement de durée ferme :
@@ -72,7 +74,7 @@ Lors de la négociation d'un nouveau bail ou d'un renouvellement, le bailleur pe
 
 <div class="encadre astuce">
 
-**Astuce** : l'ampleur de ces mesures dépend du marché local. Là où les bureaux vacants sont nombreux, la marge de négociation est plus grande. Un conseil en immobilier d'entreprise peut vous indiquer les pratiques du moment. Pour comprendre le point de vue du propriétaire, voir [bailleur et locataire : qui paie quoi](/guides/bailleur-locataire-qui-paie-quoi-travaux-bureaux).
+**Astuce** : l'ampleur de ces mesures dépend du marché local. Là où les bureaux vacants sont nombreux, la marge de négociation est plus grande. Un conseil en immobilier d'entreprise peut vous indiquer les pratiques du moment. Pour comprendre le point de vue du propriétaire, voir [bailleur et locataire : qui paie quoi](/guides/bailleur-locataire-qui-paie-quoi-travaux-bureaux). Les niveaux observés en 2026 et le coût réel de chaque formule sont chiffrés dans cette analyse des [mesures d'accompagnement : franchise, participation ou aménagement financé](https://c2o-capital.com/blog/mesures-accompagnement-financer-amenagement).
 
 </div>
 

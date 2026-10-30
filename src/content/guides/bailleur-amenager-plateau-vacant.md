@@ -1,7 +1,7 @@
 ---
 title: "Bailleur : faut-il aménager un plateau vacant avant de le louer ?"
-seoTitle: "Bailleur de bureaux : louer nu, CAT A rénové ou CAT A+ aménagé ? Le guide pour décider"
-description: "Propriétaire d'un plateau de bureaux vacant : louer en l'état, rénover en CAT A ou proposer un plateau aménagé « prêt à l'emploi » ? Coût de la vacance, options et calcul simple."
+seoTitle: "Plateau de bureaux vacant : louer nu, en CAT A ou aménagé ?"
+description: "Plateau de bureaux vacant : louer en l'état, rénover en CAT A ou livrer un plateau aménagé prêt à l'emploi ? Coût de la vacance, options et calcul simple."
 rubrique: bailleurs
 photo: bureau-vide
 photoAlt: "Plateau de bureaux vacant avec moquette usée et fenêtres, avant remise en état"
@@ -63,7 +63,7 @@ Exemple illustratif pour un plateau de 600 m², loué 250 €/m²/an hors charge
 | Charges et taxe non refacturées (hypothèse 40 €/m²/an) | 24 000 € | 10 000 € |
 | **Total sur la période** | **249 000 €** | **337 500 €** |
 
-Dans cet exemple, l'aménagement coûte plus cher à court terme. Il devient intéressant si la durée ferme du bail obtenu est plus longue, si le loyer est supérieur, ou si le plateau risque de rester vide bien au-delà de 12 mois. **Refaites le calcul avec vos hypothèses** et celles de votre commercialisateur.
+Dans cet exemple, l'aménagement coûte plus cher à court terme. Il devient intéressant si la durée ferme du bail obtenu est plus longue, si le loyer est supérieur, ou si le plateau risque de rester vide bien au-delà de 12 mois. **Refaites le calcul avec vos hypothèses** et celles de votre commercialisateur. Pour comparer, sur un cas chiffré, une franchise, une participation aux travaux et un aménagement financé, voir cette analyse du [coût réel des mesures d'accompagnement pour le bailleur](https://c2o-capital.com/blog/mesures-accompagnement-financer-amenagement).
 
 <div class="encadre astuce">
 

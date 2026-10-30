@@ -1,7 +1,7 @@
 ---
 title: "Bailleur et locataire : qui paie quoi dans les travaux de bureaux ?"
-seoTitle: "Travaux de bureaux : qui paie entre bailleur et locataire ? Article 606, charges, remise en état"
-description: "Grosses réparations, mise en conformité, aménagements du locataire, remise en état, décret tertiaire : la répartition des travaux entre bailleur et locataire dans un bail de bureaux."
+seoTitle: "Travaux de bureaux : qui paie, bailleur ou locataire ?"
+description: "Grosses réparations, mise en conformité, aménagements, remise en état, décret tertiaire : qui paie quels travaux entre bailleur et locataire de bureaux."
 rubrique: bailleurs
 photo: hall-immeuble
 photoAlt: "Hall d'un immeuble de bureaux avec grandes baies vitrées et sol en pierre"

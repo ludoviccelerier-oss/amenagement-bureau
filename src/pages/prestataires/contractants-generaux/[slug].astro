@@ -16,7 +16,11 @@ const precedent = contractants.find((x) => x.rang === c.rang - 1);
 const suivant = contractants.find((x) => x.rang === c.rang + 1);
 const memeFamille = contractants.filter((x) => x.segment === c.segment && x.slug !== c.slug).slice(0, 6);
 const titre = `${c.nom} : fiche contractant général`;
-const description = `${c.nom}, n° ${c.rang} du classement ${site.nom} des contractants généraux en France : ${c.positionnement.toLowerCase()}, chiffre d'affaires ${c.indicateurs.ca ? nb(c.indicateurs.ca) + ' M€' : 'non publié'}, comptes sur 5 ans, forces et faiblesses.`;
+// Titre et description courts pour les résultats de recherche : la première variante qui tient dans la limite
+const court = (variantes: string[], max: number) => variantes.find((v) => v.length <= max) ?? variantes[variantes.length - 1];
+const titreSeo = court([`${c.nom} : chiffre d'affaires et comptes`, `${c.nom} : comptes et analyse`, c.nom], 60);
+const debut = `${c.nom}, n° ${c.rang} de notre Top 40 des contractants généraux : chiffre d'affaires ${c.indicateurs.ca ? nb(c.indicateurs.ca) + ' M€' : 'non publié'}, comptes sur 5 ans`;
+const description = court([`${debut}, forces et points de vigilance.`, `${debut}, analyse.`, `${debut}.`], 160);
 const miettes = [
   { label: 'Accueil', href: '/' },
   { label: r.nom, href: `/rubriques/${r.id}` },
@@ -57,7 +61,7 @@ const schema = [
   schemaFilAriane(miettes),
 ];
 ---
-<Base title={`${c.nom} : chiffre d'affaires, comptes et analyse | ${site.nom}`} description={description} type="article" schema={schema} image="grand-plateau">
+<Base title={titreSeo} description={description} type="article" schema={schema} image="grand-plateau">
   <div class="conteneur">
     <FilAriane miettes={miettes} />
     <div class="article">

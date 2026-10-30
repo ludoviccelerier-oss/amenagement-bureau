@@ -26,7 +26,7 @@ const miettes = [
   { label: r.nom, href: `/rubriques/${r.id}` },
   { label: d.title, href: urlGuide(guide) },
 ];
-const visuel = await getImage({ src: photo(d.photo), width: 1200, format: 'jpg' });
+const visuel = await getImage({ src: photo(d.photo), width: 1200, format: 'jpg', quality: 70 });
 const article = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -55,7 +55,7 @@ const schema = [article, schemaFilAriane(miettes), ...(d.faq.length ? [schemaFaq
           <span>Mis à jour le <time datetime={dateIso(d.updated)}>{dateFr(d.updated)}</time></span>
           <span>{tempsLecture(guide)} min de lecture</span>
         </p>
-        <Photo nom={d.photo} alt={d.photoAlt} classe="photo bandeau" prioritaire />
+        <Photo nom={d.photo} alt={d.photoAlt} classe="photo bandeau" ratio={16 / 9} prioritaire />
         <section class="essentiel" aria-labelledby="essentiel">
           <h2 id="essentiel">L'essentiel en 30 secondes</h2>
           <ul>{d.essentiel.map((e) => <li set:html={e} />)}</ul>
@@ -78,7 +78,7 @@ const schema = [article, schemaFilAriane(miettes), ...(d.faq.length ? [schemaFaq
         <aside class="sommaire" aria-label="Sommaire">
           <h2>Dans ce guide</h2>
           <ol>
-            {sommaire.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+            {sommaire.map((h) => <li><a href={`#${h.slug}`}>{h.text.replace(/^\d+\.\s*/, '')}</a></li>)}
             {d.faq.length > 0 && <li><a href="#questions-frequentes">Questions fréquentes</a></li>}
           </ol>
         </aside>

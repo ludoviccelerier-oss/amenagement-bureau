@@ -1,11 +1,11 @@
 export const site = {
-  nom: 'Aménagement Bureau',
+  nom: 'amenagement-bureau.com', // charte : toujours en minuscules, avec le .com
   domaine: 'amenagement-bureau.com',
   url: 'https://www.amenagement-bureau.com',
   baseline: "Le guide pratique de l'aménagement de bureaux",
   description:
-    "Guides clairs pour les dirigeants, les directeurs immobiliers et les propriétaires bailleurs : étapes d'un projet de bureaux, budget, financement, fiscalité, choix du contractant général.",
-  redaction: 'La rédaction d’Aménagement Bureau',
+    "Aménager ses bureaux expliqué simplement aux dirigeants, directeurs immobiliers et bailleurs : étapes, prix au m², financement, fiscalité, choix du contractant.",
+  redaction: 'La rédaction d’amenagement-bureau.com',
 };
 
 // Les rubriques structurent la navigation, les URL /rubriques/<id> et le fil d'Ariane

@@ -1,7 +1,7 @@
 ---
 title: "Décret tertiaire, Code du travail, ERP : les règles à connaître pour vos bureaux"
-seoTitle: "Réglementation des bureaux : décret tertiaire, Code du travail, ERP, accessibilité"
-description: "Les règles qui encadrent l'aménagement de bureaux en France : décret tertiaire et OPERAT, décret BACS, obligations du Code du travail, sécurité incendie, accessibilité et ERP."
+seoTitle: "Réglementation des bureaux : décret tertiaire, ERP, travail"
+description: "Les règles qui encadrent l'aménagement de bureaux : décret tertiaire et OPERAT, décret BACS, Code du travail, sécurité incendie, accessibilité, ERP."
 rubrique: reglementation
 photo: accueil
 photoAlt: "Plateau de bureaux lumineux éclairé par de grandes baies vitrées"

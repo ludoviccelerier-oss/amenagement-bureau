@@ -1,7 +1,7 @@
 ---
 title: "Travaux de bureaux : charge ou immobilisation ? Amortissement, TVA et IFRS 16"
-seoTitle: "Travaux d'aménagement de bureaux : charge ou immobilisation, amortissement, TVA, IFRS 16"
-description: "Comment traiter en comptabilité et en fiscalité les travaux d'aménagement de vos bureaux : charge ou immobilisation, durée d'amortissement, travaux du locataire, TVA, leasing et IFRS 16."
+seoTitle: "Travaux de bureaux : charge ou immobilisation ?"
+description: "Travaux d'aménagement de bureaux en comptabilité et en fiscalité : charge ou immobilisation, durée d'amortissement, TVA, leasing et IFRS 16."
 rubrique: fiscalite-comptabilite
 photo: salon-fauteuils
 photoAlt: "Espace d'attente de bureaux avec fauteuils colorés et plantes"
@@ -90,7 +90,7 @@ Les travaux d'aménagement de bureaux sont soumis au **taux normal de 20 %**. Le
 | Bail de bureaux | Loyers en charges | Également au bilan sous IFRS 16 |
 | Exemptions | — | Contrats de courte durée (≤ 12 mois) et biens de faible valeur |
 
-Concrètement, pour une PME en comptes français, la location du mobilier et des équipements **allège le bilan** et transforme l'investissement en charges régulières. Pour un groupe en IFRS, l'avantage est surtout la **trésorerie** et la souplesse de renouvellement. Voir [comment financer ses travaux](/guides/financer-travaux-amenagement-bureaux).
+Concrètement, pour une PME en comptes français, la location du mobilier et des équipements **allège le bilan** et transforme l'investissement en charges régulières. Pour un groupe en IFRS, l'avantage est surtout la **trésorerie** et la souplesse de renouvellement. Voir [comment financer ses travaux](/guides/financer-travaux-amenagement-bureaux), et, pour un exemple chiffré sur 300 000 € côté directeur financier, cette méthode pour [arbitrer entre Capex et Opex](https://c2o-capital.com/blog/capex-opex-arbitrage-financier).
 
 ## Check-list à remettre à votre expert-comptable
 

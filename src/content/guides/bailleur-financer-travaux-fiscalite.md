@@ -1,7 +1,7 @@
 ---
 title: "Bailleur : financer et traiter fiscalement les travaux d'un immeuble de bureaux"
-seoTitle: "Propriétaire bailleur de bureaux : financement des travaux, revenus fonciers, amortissement par composants"
-description: "Propriétaire de bureaux : comment financer la remise en état ou l'aménagement d'un plateau, et comment les travaux sont traités fiscalement selon que vous détenez en direct, en SCI à l'IR ou en société à l'IS."
+seoTitle: "Bailleur de bureaux : financer et défiscaliser les travaux"
+description: "Propriétaire de bureaux : financer la remise en état d'un plateau et traiter les travaux en fiscal, en direct, en SCI à l'IR ou en société à l'IS."
 rubrique: bailleurs
 photo: couloir-vitre
 photoAlt: "Plateau de bureaux rénové avec cloisons vitrées et sol clair"
@@ -70,7 +70,7 @@ Les travaux qui **remplacent ou améliorent** un composant sont immobilisés. L'
 3. **Récupération auprès du locataire** :
    - **loyer travaux** : un complément de loyer sur la durée ferme rembourse un aménagement que vous financez ;
    - **durée ferme plus longue** en contrepartie de travaux réalisés avant l'entrée.
-4. **Location des équipements démontables** : mobilier d'un plateau aménagé, certains équipements techniques ou de pilotage de l'énergie. Le loyer peut être répercuté dans l'offre au locataire.
+4. **Location des équipements démontables** : mobilier d'un plateau aménagé, certains équipements techniques ou de pilotage de l'énergie. Le loyer peut être répercuté dans l'offre au locataire. Pour les SCPI, OPCI et foncières, l'enjeu touche aussi la capacité distributive : voir [pourquoi un aménagement financé en loyer protège le rendement d'un immeuble de bureaux](https://c2o-capital.com/blog/amenagement-opex-bailleurs-investisseurs).
 
 <div class="encadre definition">
 

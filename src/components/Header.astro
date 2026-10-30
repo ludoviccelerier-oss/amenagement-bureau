@@ -1,14 +1,10 @@
 ---
-import Logo from './Logo.astro';
 import { site, rubriques } from '../data/site';
 const chemin = Astro.url.pathname;
 ---
 <header class="entete">
   <div class="conteneur">
-    <a class="logo" href="/">
-      <Logo />
-      <span>{site.domaine}<small>{site.baseline}</small></span>
-    </a>
+    <a class="logo" href="/"><img src="/logo.svg" alt={`${site.domaine} : inspirer, agencer, performer`} width="510" height="117" /></a>
     <nav class="nav" aria-label="Rubriques">
       {rubriques.map((r) => (
         <a href={`/rubriques/${r.id}`} aria-current={chemin.startsWith(`/rubriques/${r.id}`) ? 'page' : undefined}>{r.nom}</a>

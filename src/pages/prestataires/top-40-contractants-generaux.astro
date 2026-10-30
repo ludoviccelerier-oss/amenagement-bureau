@@ -11,7 +11,7 @@ import { contractants, mediane, nb, pct, SEGMENTS, sourcesEtude, urlClassement, 
 const r = rubrique('prestataires');
 const n = contractants.length;
 const titre = 'Top 40 des contractants généraux en France : le classement 2026';
-const description = `Classement 2026 des contractants généraux, entreprises générales et spécialistes de l'aménagement de bureaux en France : ${n} acteurs analysés à partir de leurs comptes publiés (CA, EBE, BFR, solidité), avec une fiche détaillée par société.`;
+const description = `Classement 2026 des contractants généraux et spécialistes de l'aménagement de bureaux : ${n} sociétés comparées sur leurs comptes publiés (CA, EBE, solidité).`;
 const miettes = [
   { label: 'Accueil', href: '/' },
   { label: r.nom, href: `/rubriques/${r.id}` },
@@ -39,7 +39,7 @@ const points = contractants.filter((c) => c.indicateurs.ca).map((c) => {
   decalage[cle] = (decalage[cle] ?? 0) + 1;
   return { c, x: xs(c.grille.tert) + ((decalage[cle] % 5) - 2) * 7, y: ys(c.indicateurs.ca!) };
 });
-const couleurs: Record<string, string> = { A: 'var(--lien)', B: 'var(--alerte)', C: 'var(--accent)', D: 'var(--discret)' };
+const couleurs: Record<string, string> = { A: 'var(--serie-1)', B: 'var(--serie-2)', C: 'var(--serie-3)', D: 'var(--serie-4)' };
 
 const essentiel = [
   `<strong>${n} acteurs</strong> analysés à partir de leurs comptes officiels : filiales des majors, entreprises générales indépendantes, contractants généraux clé en main, spécialistes de l'aménagement de bureaux et AMO.`,
@@ -56,7 +56,7 @@ const faq = [
   { q: 'Les données sont-elles à jour ?', r: `Les comptes sont ceux du dernier exercice publié par chaque société à la date de mise à jour (${dateFr(MAJ)}). Certaines sociétés ne publient pas leurs comptes ou demandent leur confidentialité : leurs indicateurs sont alors indiqués « n.d. ».` },
 ];
 
-const visuel = await getImage({ src: photo('grand-plateau'), width: 1200, format: 'jpg' });
+const visuel = await getImage({ src: photo('grand-plateau'), width: 1200, format: 'jpg', quality: 70 });
 const schema = [
   {
     '@context': 'https://schema.org', '@type': 'Article', headline: titre, description, datePublished: dateIso(MAJ), dateModified: dateIso(MAJ),
@@ -71,7 +71,7 @@ const schema = [
   schemaFaq(faq),
 ];
 ---
-<Base title={`Top 40 des contractants généraux en France : classement 2026 | ${site.nom}`} description={description} type="article" schema={schema} image="grand-plateau">
+<Base title="Top 40 des contractants généraux en France (2026)" description={description} type="article" schema={schema} image="grand-plateau">
   <div class="conteneur">
     <FilAriane miettes={miettes} />
     <div class="article">
@@ -83,7 +83,7 @@ const schema = [
           <span>{n} sociétés analysées</span>
           <span>Comptes officiels sur 5 ans</span>
         </p>
-        <Photo nom="grand-plateau" alt="Grand plateau de bureaux en open space sous verrière" classe="photo bandeau" prioritaire />
+        <Photo nom="grand-plateau" alt="Grand plateau de bureaux en open space sous verrière" classe="photo bandeau" ratio={16 / 9} prioritaire />
         <section class="essentiel" aria-labelledby="essentiel">
           <h2 id="essentiel">L'essentiel en 30 secondes</h2>
           <ul>{essentiel.map((e) => <li set:html={e} />)}</ul>

@@ -10,7 +10,7 @@ import { photo } from '../lib/photos';
 const derniers = (await guidesTries()).slice(0, 6);
 const comptes = Object.fromEntries(await Promise.all(rubriques.map(async (r) => [r.id, (await guidesDe(r.id)).length])));
 ---
-<Base title={`Aménagement de bureaux : le guide pratique pour les entreprises et les bailleurs | ${site.nom}`} description={site.description} image="accueil">
+<Base title="Guide de l'aménagement de bureaux" description={site.description} image="accueil">
   <div class="conteneur">
     <section class="une">
       <div>
@@ -26,7 +26,7 @@ const comptes = Object.fromEntries(await Promise.all(rubriques.map(async (r) => 
           <a href="/rubriques/bailleurs">Vous êtes propriétaire bailleur →</a>
         </p>
       </div>
-      <Photo nom="accueil" alt="Plateau de bureaux lumineux avec postes de travail et grandes baies vitrées" classe="photo une-photo" prioritaire sizes="(min-width: 64rem) 34rem, 100vw" />
+      <Photo nom="accueil" alt="Plateau de bureaux lumineux avec postes de travail et grandes baies vitrées" classe="photo une-photo" ratio={4 / 3} prioritaire sizes="(min-width: 64rem) 34rem, 100vw" />
     </section>
 
     <section class="section">
@@ -34,7 +34,7 @@ const comptes = Object.fromEntries(await Promise.all(rubriques.map(async (r) => 
       <div class="grille-cartes">
         {rubriques.map((r, i) => (
           <a class="carte avec-image" href={`/rubriques/${r.id}`}>
-            <Image src={photo(r.photo)} alt="" widths={[400, 640]} sizes="(min-width: 48rem) 22rem, 100vw" format="webp" quality={68} class="carte-image" />
+            <Image src={photo(r.photo)} alt="" width={640} height={360} fit="cover" widths={[400, 640]} sizes="(min-width: 48rem) 22rem, 100vw" format="webp" quality={55} class="carte-image" />
             <span class="num">{String(i + 1).padStart(2, '0')}</span>
             <h3>{r.titre}</h3>
             <p>{r.intro}</p>

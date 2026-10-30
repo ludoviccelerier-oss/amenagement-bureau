@@ -25,23 +25,23 @@ const liste = {
   },
 };
 ---
-<Base title={`${r.titre} : guides pratiques | ${site.nom}`} description={r.intro} schema={[liste, schemaFilAriane(miettes)]} image={r.photo}>
+<Base title={`${r.titre} : guides pratiques`} description={r.intro} schema={[liste, schemaFilAriane(miettes)]} image={r.photo}>
   <div class="conteneur">
     <FilAriane miettes={miettes} />
     <span class="surtitre">Rubrique</span>
     <h1>{r.titre}</h1>
     <p class="chapo">{r.intro}</p>
-    <Photo nom={r.photo} alt="" classe="photo bandeau large" prioritaire sizes="(min-width: 72rem) 68rem, 100vw" />
+    <Photo nom={r.photo} alt="" classe="photo bandeau large" ratio={16 / 9} prioritaire sizes="(min-width: 72rem) 68rem, 100vw" />
     {r.id === 'prestataires' && (
       <a class="carte vedette section" href={urlClassement}>
         <span class="num">Classement 2026</span>
-        <h3>Top 40 des contractants généraux en France</h3>
+        <h2 class="h3">Top 40 des contractants généraux en France</h2>
         <p>{contractants.length} sociétés analysées à partir de leurs comptes officiels : chiffre d'affaires, rentabilité, solidité financière, et une fiche détaillée pour chacune (Tétris, GSE, Bouygues Bâtiment, Korus, Kardham, Isospace…).</p>
         <span class="meta">Voir le classement →</span>
       </a>
     )}
     {guides.length > 0
-      ? <div class="grille-cartes section">{guides.map((g, i) => <CarteGuide guide={g} numero={i + 1} />)}</div>
+      ? <><h2 class="section">Les guides de la rubrique</h2><div class="grille-cartes">{guides.map((g, i) => <CarteGuide guide={g} numero={i + 1} />)}</div></>
       : <p>Les premiers guides de cette rubrique sont en cours de rédaction.</p>}
   </div>
 </Base>

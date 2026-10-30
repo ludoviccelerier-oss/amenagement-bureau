@@ -1,6 +1,6 @@
 ---
 title: "Aménager ses bureaux : par où commencer ?"
-seoTitle: "Aménager ses bureaux : par où commencer ? Le guide pour débutants"
+seoTitle: "Aménager ses bureaux : par où commencer ?"
 description: "Vous devez aménager ou réaménager vos bureaux sans être du métier ? Les 6 questions à vous poser avant de contacter le moindre prestataire."
 rubrique: comprendre
 photo: salon-plateau

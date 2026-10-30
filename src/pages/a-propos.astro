@@ -5,7 +5,7 @@ import { site } from '../data/site';
 import { schemaFilAriane } from '../lib/schema';
 const miettes = [{ label: 'Accueil', href: '/' }, { label: 'À propos', href: '/a-propos' }];
 ---
-<Base title={`À propos et méthode éditoriale | ${site.nom}`} description="Pourquoi ce site, à qui il s'adresse et comment nos guides sont rédigés et mis à jour." schema={[schemaFilAriane(miettes)]}>
+<Base title="À propos et méthode éditoriale" description="Pourquoi ce site existe, à qui il s'adresse, comment nos guides sur l'aménagement de bureaux sont rédigés, sourcés et mis à jour, et leurs limites." schema={[schemaFilAriane(miettes)]}>
   <div class="conteneur">
     <FilAriane miettes={miettes} />
     <div class="article-corps prose">

@@ -1,7 +1,7 @@
 ---
 title: "Choisir un contractant général : la grille en 12 critères"
-seoTitle: "Choisir un contractant général pour ses bureaux : 12 critères pour comparer, partout en France"
-description: "Comment comparer des contractants généraux pour l'aménagement de vos bureaux, à Paris comme en région : 12 critères, les questions à poser et les pièges des devis."
+seoTitle: "Choisir un contractant général : 12 critères pour comparer"
+description: "Comparer des contractants généraux pour aménager vos bureaux, à Paris comme en région : 12 critères, les questions à poser et les pièges des devis."
 rubrique: prestataires
 photo: grand-plateau
 photoAlt: "Grand plateau de bureaux en open space sous verrière"
