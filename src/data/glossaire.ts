@@ -24,7 +24,7 @@ const termes: Terme[] = [
   { terme: 'Durée d’usage', def: "Durée d'amortissement admise par l'usage dans chaque profession, servant de référence fiscale. Pour les agencements, elle se situe généralement entre 10 et 20 ans.", voir: 'travaux-bureaux-charge-ou-immobilisation' },
   { terme: 'Entreprise générale', def: "Entreprise qui réalise l'ensemble des travaux sous un seul contrat, à partir d'une conception faite par un autre (architecte, space planner).", voir: 'contractant-general-entreprise-generale-lots-separes' },
   { terme: 'ERP / ERT', def: "Établissement recevant du public / établissement recevant des travailleurs. Des bureaux sans accueil du public relèvent du Code du travail (ERT) ; un accueil du public ajoute les règles ERP.", voir: 'reglementation-bureaux-decret-tertiaire-code-du-travail' },
-  { terme: 'Flex office', def: "Organisation sans poste attribué, où le nombre de postes est inférieur au nombre de collaborateurs. On parle de taux de partage (par exemple 0,8 poste par personne)." },
+  { terme: 'Flex office', def: "Organisation sans poste attribué, où le nombre de postes est inférieur au nombre de collaborateurs. On parle de taux de partage (par exemple 0,8 poste par personne).", voir: 'surface-bureaux-m2-par-salarie' },
   { terme: 'Franchise de loyer', def: "Période sans loyer accordée par le bailleur à la signature du bail, souvent en contrepartie des travaux d'aménagement pris en charge par le locataire.", voir: 'financer-travaux-amenagement-bureaux' },
   { terme: 'Garantie biennale', def: "Garantie de bon fonctionnement de deux ans sur les équipements dissociables du bâtiment (portes, appareils, éléments démontables).", voir: 'reception-travaux-reserves-garanties' },
   { terme: 'Garantie décennale', def: "Responsabilité de dix ans des constructeurs pour les dommages qui compromettent la solidité de l'ouvrage ou le rendent impropre à sa destination.", voir: 'reception-travaux-reserves-garanties' },
@@ -47,6 +47,7 @@ const termes: Terme[] = [
   { terme: 'Retenue de garantie', def: "Part du prix des travaux (5 % au maximum) conservée pendant un an pour garantir la levée des réserves. Elle peut être remplacée par une caution bancaire.", voir: 'reception-travaux-reserves-garanties' },
   { terme: 'Space planning', def: "Conception de l'implantation des espaces et des postes de travail sur un plateau, à partir du programme." },
   { terme: 'SUBL', def: "Surface utile brute locative : surface louée hors parties communes générales, base habituelle du loyer et des ratios en bureaux." },
+  { terme: 'Taux d’occupation', def: "Part des postes de travail effectivement occupés à un moment donné. On distingue l'occupation moyenne de l'occupation de pointe, qui sert à dimensionner les bureaux.", voir: 'surface-bureaux-m2-par-salarie' },
 ];
 
 export const glossaire = termes

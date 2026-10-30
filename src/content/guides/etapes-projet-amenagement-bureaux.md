@@ -7,7 +7,7 @@ photo: couloir-vitre
 photoAlt: "Circulation bordée de cloisons vitrées à cadre noir dans un plateau de bureaux"
 ordre: 1
 date: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 essentiel:
   - "Un projet de bureaux suit presque toujours 7 étapes : <strong>besoin, programmation, conception, consultation, préparation, travaux, réception et emménagement</strong>."
   - "Les décisions qui pèsent le plus sur le budget sont prises au début, pendant la programmation et la conception, et non pendant le chantier."
@@ -32,7 +32,7 @@ Un projet d'aménagement ressemble à une course de relais : plusieurs intervena
 
 **Objectif** : traduire votre organisation en espaces. Combien de postes, de salles de réunion de 4, 8 ou 12 places, de bulles d'appel, quelle taille d'espace café, quels besoins de stockage et quelles proximités entre services.
 
-Elle se fait par des entretiens, des ateliers ou un questionnaire auprès des équipes, parfois avec une mesure de l'occupation réelle des bureaux actuels. **Votre livrable** est le **programme** : un tableau des espaces et des surfaces.
+Elle se fait par des entretiens, des ateliers ou un questionnaire auprès des équipes, parfois avec une mesure de l'occupation réelle des bureaux actuels. **Votre livrable** est le **programme** : un tableau des espaces et des surfaces. Pour les ratios à utiliser, voir [combien de m² par salarié prévoir dans des bureaux](/guides/surface-bureaux-m2-par-salarie).
 
 <div class="encadre astuce">
 

@@ -7,7 +7,7 @@ photo: salon-plateau
 photoAlt: "Plateau de bureaux aménagé avec un coin salon et des postes de travail en fond"
 ordre: 1
 date: 2026-10-29
-updated: 2026-10-29
+updated: 2026-10-30
 essentiel:
   - "Avant de parler plans et mobilier, clarifiez <strong>pourquoi</strong> vous aménagez : croissance, déménagement, fin de bail, télétravail, image, économies d'énergie."
   - "Fixez trois choses dès le départ : <strong>une enveloppe budgétaire</strong>, <strong>une date butoir</strong> et <strong>un décideur unique</strong> côté entreprise."
@@ -48,7 +48,7 @@ Aménager des bureaux ressemble à la rénovation d'une maison, en plus collecti
 
 Le nombre de postes ne se déduit plus simplement de l'effectif. Avec deux ou trois jours de télétravail par semaine, beaucoup d'entreprises prévoient moins d'un poste par collaborateur, mais davantage de salles de réunion, de bulles d'appel et d'espaces informels.
 
-Pour estimer la surface, les professionnels raisonnent souvent en **ratio de m² par poste** : en France, on observe couramment autour de 10 à 12 m² de surface locative par poste de travail, circulations et espaces partagés compris. Ce n'est qu'un ordre de grandeur, qui varie fortement selon l'activité.
+Pour estimer la surface, les professionnels raisonnent souvent en **ratio de m² par poste** : en France, on observe couramment autour de 10 à 12 m² de surface locative par poste de travail, circulations et espaces partagés compris. Ce n'est qu'un ordre de grandeur, qui varie fortement selon l'activité. La méthode de calcul complète, flex office compris, est détaillée dans notre guide [combien de m² par salarié prévoir](/guides/surface-bureaux-m2-par-salarie).
 
 ## 3. Quelle enveloppe budgétaire ?
 
